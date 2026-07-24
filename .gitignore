@@ -1,0 +1,168 @@
+############################
+# Build Results
+############################
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+ARM/
+ARM64/
+artifacts/
+publish/
+
+############################
+# User-specific files
+############################
+*.user
+*.rsuser
+*.suo
+*.userosscache
+*.sln.docstates
+
+############################
+# Visual Studio
+############################
+.vs/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+############################
+# Rider
+############################
+.idea/
+*.sln.iml
+
+############################
+# Logs
+############################
+*.log
+logs/
+*.tlog
+
+############################
+# Test Results
+############################
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+############################
+# NuGet
+############################
+*.nupkg
+*.snupkg
+packages/
+!packages/build/
+.nuget/packages/
+
+############################
+# ASP.NET Core
+############################
+appsettings.Development.json
+appsettings.Local.json
+appsettings.*.local.json
+
+############################
+# Environment Files
+############################
+.env
+.env.*
+!.env.example
+
+############################
+# Publish Output
+############################
+publish/
+wwwroot/dist/
+wwwroot/lib/
+
+############################
+# IIS
+############################
+iisexpress/
+*.dbmdl
+
+############################
+# Azure
+############################
+PublishProfiles/
+*.publishsettings
+
+############################
+# Entity Framework
+############################
+*.mdf
+*.ldf
+
+############################
+# Temporary Files
+############################
+*.tmp
+*.temp
+*.cache
+
+############################
+# OS Files
+############################
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+############################
+# npm / pnpm / yarn
+############################
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+.yarn-cache/
+
+############################
+# Generated Files
+############################
+Generated/
+ScaffoldingReadMe.txt
+
+############################
+# Coverage
+############################
+coverage/
+coverage-report/
+lcov.info
+
+############################
+# JetBrains
+############################
+_ReSharper*/
+*.DotSettings.user
+
+############################
+# SQL Server LocalDB
+############################
+*.mdf
+*.ldf
+
+############################
+# Certificates
+############################
+*.pfx
+*.pem
+*.key
+*.crt
+
+############################
+# Docker
+############################
+docker-compose.override.yml
+
+############################
+# Misc
+############################
+*.pid
+*.seed

@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="VigModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'VigilanceMISDB.dbo.ABBFF' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ABBFF">
+          <Key>
+            <PropertyRef Name="RNO" />
+            <PropertyRef Name="ACTIVE" />
+          </Key>
+          <Property Name="RNO" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="RECDATE" Type="datetime" />
+          <Property Name="SOURCEREF" Type="varchar" MaxLength="50" />
+          <Property Name="SOURCEDATE" Type="datetime" />
+          <Property Name="DATEOFOCCURANCE" Type="datetime" />
+          <Property Name="DATEOFDETECTION" Type="datetime" />
+          <Property Name="DATEOFREPORTINGTORBI" Type="datetime" />
+          <Property Name="FRAUD_COMMITED_BY" Type="varchar" MaxLength="50" />
+          <Property Name="FMR_NO" Type="varchar" MaxLength="50" />
+          <Property Name="FIR" Type="varchar" MaxLength="50" />
+          <Property Name="FIR_DATE" Type="datetime" />
+          <Property Name="DATE_OF_NPA" Type="datetime" />
+          <Property Name="ACCOUNT_NAME" Type="varchar" MaxLength="255" />
+          <Property Name="AMOUNT" Type="varchar" MaxLength="50" />
+          <Property Name="BR_COMPLAINT" Type="varchar" MaxLength="50" />
+          <Property Name="ZONE" Type="varchar" MaxLength="128" />
+          <Property Name="CIRCLE_OFFICE" Type="varchar" MaxLength="128" />
+          <Property Name="BRANCH_OFFICE" Type="varchar" MaxLength="128" />
+          <Property Name="HOSAC_DATE" Type="datetime" />
+          <Property Name="MODUS_OPERANDI" Type="varchar(max)" />
+          <Property Name="ABBFF_CASE_SUBMISSION_DATE" Type="datetime" />
+          <Property Name="ABBFF_OBSERVATIONS" Type="varchar" MaxLength="1000" />
+          <Property Name="REPLY_SENT_TO_ABBF_DT" Type="datetime" />
+          <Property Name="ABBFF_REFERENCE_NO" Type="varchar" MaxLength="100" />
+          <Property Name="ABBFF_ADVICE_RCVD_DT" Type="datetime" />
+          <Property Name="ABBFF_ADVICE_DETAILS" Type="varchar" MaxLength="255" />
+          <Property Name="STATUS" Type="varchar" MaxLength="255" />
+          <Property Name="STATUS_CODE" Type="varchar" MaxLength="255" />
+          <Property Name="CONNECTED_SOP_NUMBER" Type="varchar" MaxLength="50" />
+          <Property Name="CASE_CLOSE" Type="varchar" MaxLength="50" />
+          <Property Name="CLOSURE_DATE" Type="datetime" />
+          <Property Name="ACTIVE" Type="bit" Nullable="false" />
+          <Property Name="ADDDATE" Type="datetime" />
+          <Property Name="ADDUSER" Type="varchar" MaxLength="50" />
+          <Property Name="MODDATE" Type="datetime" />
+          <Property Name="MODUSER" Type="varchar" MaxLength="50" />
+          <Property Name="CODE" Type="varchar" MaxLength="50" />
+          <Property Name="ADDUSERIP" Type="varchar" MaxLength="50" />
+          <Property Name="MODUSERIP" Type="varchar" MaxLength="50" />
+          <Property Name="DESK_USER_REMARKS" Type="varchar(max)" />
+          <Property Name="DESK_USER_ID" Type="varchar" MaxLength="50" />
+          <Property Name="DESK_USER_IP" Type="varchar" MaxLength="50" />
+          <Property Name="DESK_USER_ADDDATE" Type="datetime" />
+          <Property Name="DESK_USER_ROLE" Type="varchar" MaxLength="50" />
+          <Property Name="CHANNEL" Type="varchar" MaxLength="50" />
+          <Property Name="NEW_ZONE" Type="varchar" MaxLength="50" />
+          <Property Name="NEW_CIRCLE" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ABBFF_EO_DETAILS">
+          <Key>
+            <PropertyRef Name="ABBFF_EO_UNIQUE_ID" />
+          </Key>
+          <Property Name="ABBFF_EO_UNIQUE_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ABBFF_UNIQUE_ID" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ABBFF_TYPE" Type="varchar" MaxLength="10" />
+          <Property Name="ABBFF_EO_PF" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ABBFF_EO_NAME" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ABBFF_DESIGNATION" Type="varchar" MaxLength="50" />
+          <Property Name="ABBFF_EO_DOR" Type="datetime" Nullable="false" />
+          <Property Name="ABBFF_DEALTHWITH" Type="varchar" MaxLength="10" />
+          <Property Name="ABBFF_RELATED_NPA_NO" Type="varchar" MaxLength="10" />
+          <Property Name="ABBFF_RELATED_CASE_NO_IAC" Type="varchar" MaxLength="10" />
+          <Property Name="ABBFF_RELATED_CASE_VIG" Type="varchar" MaxLength="10" />
+          <Property Name="ABBFF_EO_ACTIVE" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="ABBFF_EO_ADD_USER" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="ABBFF_EO_ADD_DATE" Type="datetime" />
+          <Property Name="ABBFF_EO_MOD_USER" Type="varchar" MaxLength="10" />
+          <Property Name="ABBFF_EO_MOD_DATE" Type="datetime" />
+          <Property Name="ABBFF_EO_DELETE_USER" Type="varchar" MaxLength="10" />
+          <Property Name="ABBFF_EO_DELETE_DATE" Type="datetime" />
+          <Property Name="ABBFF_EO_PF_OLD" Type="varchar" MaxLength="10" />
+          <Property Name="ABBFF_EO_EMP_ID" Type="varchar" MaxLength="10" />
+        </EntityType>
+        <EntityContainer Name="VigModelStoreContainer">
+          <EntitySet Name="ABBFF_EO_DETAILS" EntityType="Self.ABBFF_EO_DETAILS" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ABBFF" EntityType="Self.ABBFF" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ABBFF].[RNO] AS [RNO], 
+    [ABBFF].[RECDATE] AS [RECDATE], 
+    [ABBFF].[SOURCEREF] AS [SOURCEREF], 
+    [ABBFF].[SOURCEDATE] AS [SOURCEDATE], 
+    [ABBFF].[DATEOFOCCURANCE] AS [DATEOFOCCURANCE], 
+    [ABBFF].[DATEOFDETECTION] AS [DATEOFDETECTION], 
+    [ABBFF].[DATEOFREPORTINGTORBI] AS [DATEOFREPORTINGTORBI], 
+    [ABBFF].[FRAUD_COMMITED_BY] AS [FRAUD_COMMITED_BY], 
+    [ABBFF].[FMR_NO] AS [FMR_NO], 
+    [ABBFF].[FIR] AS [FIR], 
+    [ABBFF].[FIR_DATE] AS [FIR_DATE], 
+    [ABBFF].[DATE_OF_NPA] AS [DATE_OF_NPA], 
+    [ABBFF].[ACCOUNT_NAME] AS [ACCOUNT_NAME], 
+    [ABBFF].[AMOUNT] AS [AMOUNT], 
+    [ABBFF].[BR_COMPLAINT] AS [BR_COMPLAINT], 
+    [ABBFF].[ZONE] AS [ZONE], 
+    [ABBFF].[CIRCLE_OFFICE] AS [CIRCLE_OFFICE], 
+    [ABBFF].[BRANCH_OFFICE] AS [BRANCH_OFFICE], 
+    [ABBFF].[HOSAC_DATE] AS [HOSAC_DATE], 
+    [ABBFF].[MODUS_OPERANDI] AS [MODUS_OPERANDI], 
+    [ABBFF].[ABBFF_CASE_SUBMISSION_DATE] AS [ABBFF_CASE_SUBMISSION_DATE], 
+    [ABBFF].[ABBFF_OBSERVATIONS] AS [ABBFF_OBSERVATIONS], 
+    [ABBFF].[REPLY_SENT_TO_ABBF_DT] AS [REPLY_SENT_TO_ABBF_DT], 
+    [ABBFF].[ABBFF_REFERENCE_NO] AS [ABBFF_REFERENCE_NO], 
+    [ABBFF].[ABBFF_ADVICE_RCVD_DT] AS [ABBFF_ADVICE_RCVD_DT], 
+    [ABBFF].[ABBFF_ADVICE_DETAILS] AS [ABBFF_ADVICE_DETAILS], 
+    [ABBFF].[STATUS] AS [STATUS], 
+    [ABBFF].[STATUS_CODE] AS [STATUS_CODE], 
+    [ABBFF].[CONNECTED_SOP_NUMBER] AS [CONNECTED_SOP_NUMBER], 
+    [ABBFF].[CASE_CLOSE] AS [CASE_CLOSE], 
+    [ABBFF].[CLOSURE_DATE] AS [CLOSURE_DATE], 
+    [ABBFF].[ACTIVE] AS [ACTIVE], 
+    [ABBFF].[ADDDATE] AS [ADDDATE], 
+    [ABBFF].[ADDUSER] AS [ADDUSER], 
+    [ABBFF].[MODDATE] AS [MODDATE], 
+    [ABBFF].[MODUSER] AS [MODUSER], 
+    [ABBFF].[CODE] AS [CODE], 
+    [ABBFF].[ADDUSERIP] AS [ADDUSERIP], 
+    [ABBFF].[MODUSERIP] AS [MODUSERIP], 
+    [ABBFF].[DESK_USER_REMARKS] AS [DESK_USER_REMARKS], 
+    [ABBFF].[DESK_USER_ID] AS [DESK_USER_ID], 
+    [ABBFF].[DESK_USER_IP] AS [DESK_USER_IP], 
+    [ABBFF].[DESK_USER_ADDDATE] AS [DESK_USER_ADDDATE], 
+    [ABBFF].[DESK_USER_ROLE] AS [DESK_USER_ROLE], 
+    [ABBFF].[CHANNEL] AS [CHANNEL], 
+    [ABBFF].[NEW_ZONE] AS [NEW_ZONE], 
+    [ABBFF].[NEW_CIRCLE] AS [NEW_CIRCLE]
+    FROM [dbo].[ABBFF] AS [ABBFF]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="VigModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ABBFF_EO_DETAILS">
+          <Key>
+            <PropertyRef Name="ABBFF_EO_UNIQUE_ID" />
+          </Key>
+          <Property Name="ABBFF_EO_UNIQUE_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ABBFF_UNIQUE_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ABBFF_TYPE" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ABBFF_EO_PF" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ABBFF_EO_NAME" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ABBFF_DESIGNATION" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ABBFF_EO_DOR" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ABBFF_DEALTHWITH" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ABBFF_RELATED_NPA_NO" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ABBFF_RELATED_CASE_NO_IAC" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ABBFF_RELATED_CASE_VIG" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ABBFF_EO_ACTIVE" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ABBFF_EO_ADD_USER" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ABBFF_EO_ADD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="ABBFF_EO_MOD_USER" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ABBFF_EO_MOD_DATE" Type="DateTime" Precision="3" />
+          <Property Name="ABBFF_EO_DELETE_USER" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ABBFF_EO_DELETE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="ABBFF_EO_PF_OLD" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ABBFF_EO_EMP_ID" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ABBFF">
+          <Key>
+            <PropertyRef Name="RNO" />
+            <PropertyRef Name="ACTIVE" />
+          </Key>
+          <Property Name="RNO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RECDATE" Type="DateTime" Precision="3" />
+          <Property Name="SOURCEREF" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SOURCEDATE" Type="DateTime" Precision="3" />
+          <Property Name="DATEOFOCCURANCE" Type="DateTime" Precision="3" />
+          <Property Name="DATEOFDETECTION" Type="DateTime" Precision="3" />
+          <Property Name="DATEOFREPORTINGTORBI" Type="DateTime" Precision="3" />
+          <Property Name="FRAUD_COMMITED_BY" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FMR_NO" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FIR" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FIR_DATE" Type="DateTime" Precision="3" />
+          <Property Name="DATE_OF_NPA" Type="DateTime" Precision="3" />
+          <Property Name="ACCOUNT_NAME" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="AMOUNT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="BR_COMPLAINT" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ZONE" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="CIRCLE_OFFICE" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="BRANCH_OFFICE" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="HOSAC_DATE" Type="DateTime" Precision="3" />
+          <Property Name="MODUS_OPERANDI" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ABBFF_CASE_SUBMISSION_DATE" Type="DateTime" Precision="3" />
+          <Property Name="ABBFF_OBSERVATIONS" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="REPLY_SENT_TO_ABBF_DT" Type="DateTime" Precision="3" />
+          <Property Name="ABBFF_REFERENCE_NO" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ABBFF_ADVICE_RCVD_DT" Type="DateTime" Precision="3" />
+          <Property Name="ABBFF_ADVICE_DETAILS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="STATUS_CODE" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="CONNECTED_SOP_NUMBER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CASE_CLOSE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CLOSURE_DATE" Type="DateTime" Precision="3" />
+          <Property Name="ACTIVE" Type="Boolean" Nullable="false" />
+          <Property Name="ADDDATE" Type="DateTime" Precision="3" />
+          <Property Name="ADDUSER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MODDATE" Type="DateTime" Precision="3" />
+          <Property Name="MODUSER" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CODE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ADDUSERIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MODUSERIP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESK_USER_REMARKS" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DESK_USER_ID" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESK_USER_IP" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DESK_USER_ADDDATE" Type="DateTime" Precision="3" />
+          <Property Name="DESK_USER_ROLE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CHANNEL" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NEW_ZONE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="NEW_CIRCLE" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="vigcontext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ABBFF_EO_DETAILS" EntityType="Self.ABBFF_EO_DETAILS" />
+          <EntitySet Name="ABBFFs" EntityType="Self.ABBFF" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="VigModelStoreContainer" CdmEntityContainer="vigcontext">
+          <EntitySetMapping Name="ABBFF_EO_DETAILS">
+            <EntityTypeMapping TypeName="VigModel.ABBFF_EO_DETAILS">
+              <MappingFragment StoreEntitySet="ABBFF_EO_DETAILS">
+                <ScalarProperty Name="ABBFF_EO_UNIQUE_ID" ColumnName="ABBFF_EO_UNIQUE_ID" />
+                <ScalarProperty Name="ABBFF_UNIQUE_ID" ColumnName="ABBFF_UNIQUE_ID" />
+                <ScalarProperty Name="ABBFF_TYPE" ColumnName="ABBFF_TYPE" />
+                <ScalarProperty Name="ABBFF_EO_PF" ColumnName="ABBFF_EO_PF" />
+                <ScalarProperty Name="ABBFF_EO_NAME" ColumnName="ABBFF_EO_NAME" />
+                <ScalarProperty Name="ABBFF_DESIGNATION" ColumnName="ABBFF_DESIGNATION" />
+                <ScalarProperty Name="ABBFF_EO_DOR" ColumnName="ABBFF_EO_DOR" />
+                <ScalarProperty Name="ABBFF_DEALTHWITH" ColumnName="ABBFF_DEALTHWITH" />
+                <ScalarProperty Name="ABBFF_RELATED_NPA_NO" ColumnName="ABBFF_RELATED_NPA_NO" />
+                <ScalarProperty Name="ABBFF_RELATED_CASE_NO_IAC" ColumnName="ABBFF_RELATED_CASE_NO_IAC" />
+                <ScalarProperty Name="ABBFF_RELATED_CASE_VIG" ColumnName="ABBFF_RELATED_CASE_VIG" />
+                <ScalarProperty Name="ABBFF_EO_ACTIVE" ColumnName="ABBFF_EO_ACTIVE" />
+                <ScalarProperty Name="ABBFF_EO_ADD_USER" ColumnName="ABBFF_EO_ADD_USER" />
+                <ScalarProperty Name="ABBFF_EO_ADD_DATE" ColumnName="ABBFF_EO_ADD_DATE" />
+                <ScalarProperty Name="ABBFF_EO_MOD_USER" ColumnName="ABBFF_EO_MOD_USER" />
+                <ScalarProperty Name="ABBFF_EO_MOD_DATE" ColumnName="ABBFF_EO_MOD_DATE" />
+                <ScalarProperty Name="ABBFF_EO_DELETE_USER" ColumnName="ABBFF_EO_DELETE_USER" />
+                <ScalarProperty Name="ABBFF_EO_DELETE_DATE" ColumnName="ABBFF_EO_DELETE_DATE" />
+                <ScalarProperty Name="ABBFF_EO_PF_OLD" ColumnName="ABBFF_EO_PF_OLD" />
+                <ScalarProperty Name="ABBFF_EO_EMP_ID" ColumnName="ABBFF_EO_EMP_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ABBFFs">
+            <EntityTypeMapping TypeName="VigModel.ABBFF">
+              <MappingFragment StoreEntitySet="ABBFF">
+                <ScalarProperty Name="RNO" ColumnName="RNO" />
+                <ScalarProperty Name="RECDATE" ColumnName="RECDATE" />
+                <ScalarProperty Name="SOURCEREF" ColumnName="SOURCEREF" />
+                <ScalarProperty Name="SOURCEDATE" ColumnName="SOURCEDATE" />
+                <ScalarProperty Name="DATEOFOCCURANCE" ColumnName="DATEOFOCCURANCE" />
+                <ScalarProperty Name="DATEOFDETECTION" ColumnName="DATEOFDETECTION" />
+                <ScalarProperty Name="DATEOFREPORTINGTORBI" ColumnName="DATEOFREPORTINGTORBI" />
+                <ScalarProperty Name="FRAUD_COMMITED_BY" ColumnName="FRAUD_COMMITED_BY" />
+                <ScalarProperty Name="FMR_NO" ColumnName="FMR_NO" />
+                <ScalarProperty Name="FIR" ColumnName="FIR" />
+                <ScalarProperty Name="FIR_DATE" ColumnName="FIR_DATE" />
+                <ScalarProperty Name="DATE_OF_NPA" ColumnName="DATE_OF_NPA" />
+                <ScalarProperty Name="ACCOUNT_NAME" ColumnName="ACCOUNT_NAME" />
+                <ScalarProperty Name="AMOUNT" ColumnName="AMOUNT" />
+                <ScalarProperty Name="BR_COMPLAINT" ColumnName="BR_COMPLAINT" />
+                <ScalarProperty Name="ZONE" ColumnName="ZONE" />
+                <ScalarProperty Name="CIRCLE_OFFICE" ColumnName="CIRCLE_OFFICE" />
+                <ScalarProperty Name="BRANCH_OFFICE" ColumnName="BRANCH_OFFICE" />
+                <ScalarProperty Name="HOSAC_DATE" ColumnName="HOSAC_DATE" />
+                <ScalarProperty Name="MODUS_OPERANDI" ColumnName="MODUS_OPERANDI" />
+                <ScalarProperty Name="ABBFF_CASE_SUBMISSION_DATE" ColumnName="ABBFF_CASE_SUBMISSION_DATE" />
+                <ScalarProperty Name="ABBFF_OBSERVATIONS" ColumnName="ABBFF_OBSERVATIONS" />
+                <ScalarProperty Name="REPLY_SENT_TO_ABBF_DT" ColumnName="REPLY_SENT_TO_ABBF_DT" />
+                <ScalarProperty Name="ABBFF_REFERENCE_NO" ColumnName="ABBFF_REFERENCE_NO" />
+                <ScalarProperty Name="ABBFF_ADVICE_RCVD_DT" ColumnName="ABBFF_ADVICE_RCVD_DT" />
+                <ScalarProperty Name="ABBFF_ADVICE_DETAILS" ColumnName="ABBFF_ADVICE_DETAILS" />
+                <ScalarProperty Name="STATUS" ColumnName="STATUS" />
+                <ScalarProperty Name="STATUS_CODE" ColumnName="STATUS_CODE" />
+                <ScalarProperty Name="CONNECTED_SOP_NUMBER" ColumnName="CONNECTED_SOP_NUMBER" />
+                <ScalarProperty Name="CASE_CLOSE" ColumnName="CASE_CLOSE" />
+                <ScalarProperty Name="CLOSURE_DATE" ColumnName="CLOSURE_DATE" />
+                <ScalarProperty Name="ACTIVE" ColumnName="ACTIVE" />
+                <ScalarProperty Name="ADDDATE" ColumnName="ADDDATE" />
+                <ScalarProperty Name="ADDUSER" ColumnName="ADDUSER" />
+                <ScalarProperty Name="MODDATE" ColumnName="MODDATE" />
+                <ScalarProperty Name="MODUSER" ColumnName="MODUSER" />
+                <ScalarProperty Name="CODE" ColumnName="CODE" />
+                <ScalarProperty Name="ADDUSERIP" ColumnName="ADDUSERIP" />
+                <ScalarProperty Name="MODUSERIP" ColumnName="MODUSERIP" />
+                <ScalarProperty Name="DESK_USER_REMARKS" ColumnName="DESK_USER_REMARKS" />
+                <ScalarProperty Name="DESK_USER_ID" ColumnName="DESK_USER_ID" />
+                <ScalarProperty Name="DESK_USER_IP" ColumnName="DESK_USER_IP" />
+                <ScalarProperty Name="DESK_USER_ADDDATE" ColumnName="DESK_USER_ADDDATE" />
+                <ScalarProperty Name="DESK_USER_ROLE" ColumnName="DESK_USER_ROLE" />
+                <ScalarProperty Name="CHANNEL" ColumnName="CHANNEL" />
+                <ScalarProperty Name="NEW_ZONE" ColumnName="NEW_ZONE" />
+                <ScalarProperty Name="NEW_CIRCLE" ColumnName="NEW_CIRCLE" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

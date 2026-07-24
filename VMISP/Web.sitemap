@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+
+<siteMap xmlns="http://schemas.microsoft.com/AspNet/SiteMap-File-1.0" enableLocalization="true">
+  <siteMapNode url="~/Default.aspx" title=" Home"
+    description="Wecome to Vigilance Management Information System Portal">
+    <siteMapNode url="" title="" description=""
+      roles="VMIS_SUPERUSER,VMIS_ADMIN,VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+      <siteMapNode url="" title="User Maintenance" description="User Maintenance"
+        roles="VMIS_SUPERUSER,VMIS_ADMIN">
+        <siteMapNode url="~/Admin/Usercreation.aspx" description="User Creation"
+          title="User Creation" roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Admin/frmUserList.aspx" description="User List" title="User List"
+          roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Dashboard" description="Dashboard"
+        roles="VMIS_SUPERUSER,VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Dashboard.aspx" description="Dashboard" title="Dashboard"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Master Maintenance" description="Master Maintenance"
+        roles="VMIS_SUPERUSER,VMIS_ADMIN">
+        <siteMapNode url="~/Admin/frmCircleHead.aspx" description="Circle Head Update"
+          title="Circle Head Update" roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Master/CircleMaster.aspx" description="Branch Master"
+          title="Branch Master" roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Master/BranchMaster.aspx" description="Branch Master"
+          title="Branch Master" roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Master/frmStatus.aspx" description="Status Master" title="Status Master"
+          roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Master/frmScale.aspx" description="Scale Master" title="Scale Master"
+          roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Master/frmNatureCase.aspx" description="Nature Case Master"
+          title="Nature Case Master" roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Master/frmSourceRef.aspx" description="Source Ref Master"
+          title="Source Ref Master" roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Master/frmPenaltyType.aspx" description="Penalty Type Master"
+          title="Penalty Type Master" roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Master/frmRegister.aspx" description="Register" title="Register"
+          roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Master/frmPenaltyProceding.aspx" description="Penalty Proceeding"
+          title="Penalty Proceeding" roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Master/EmailMaster.aspx" description="Email Master" title="Email Master"
+          roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Master/ZoneChiefManager.aspx" description="Zone Chief Manager Master"
+          title="Zone Chief Manager Master" roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+        <siteMapNode url="~/Master/LodiDisable.aspx" description="Disable Lodi Details"
+          title="Disable Lodi Details" roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Complaint" description="Complaint"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/frmComplaint.aspx" description="Complaint" title="Complaint"></siteMapNode>
+        <siteMapNode url="~/Mis/frmComplaintUpdate.aspx" description="Complaint Update"
+          title="Complaint Update" roles="VMIS_MISUSER"></siteMapNode>
+        <siteMapNode url="~/Mis/frmComplaintChecker.aspx" description="Complaint Checker Inbox"
+          title="Complaint Checker Inbox" roles="VMIS_CHECKER"></siteMapNode>
+        <siteMapNode url="~/Reports/frmComplaintReports.aspx" description="Complaint Report"
+          title="Report"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="IAC" description="IAC Structure"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/frmIACStructure.aspx" description="IAC" title="IAC"></siteMapNode>
+        <siteMapNode url="~/Mis/frmIACUpdate.aspx" description="IAC Update" title="IAC Update"
+          roles="VMIS_MISUSER"></siteMapNode>
+        <siteMapNode url="~/Reports/frmIACReports.aspx" description="IAC Report" title="Report"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="LODI" description="LODI"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/Lodi.aspx" description="LODI" title="LODI"></siteMapNode>
+        <siteMapNode url="~/Reports/LodiReport.aspx" description="LODI Report" title="LODI Report"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="ABBFF" description="ABBFF Structure"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/frmABBFF.aspx" description="ABBFF" title="ABBFF"></siteMapNode>
+        <siteMapNode url="~/Reports/ABBFFReport.aspx" description="ABBFF Report"
+          title="ABBFF Report"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Misc" description="Misc Structure"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/frmMiscStructure.aspx" description="Misc" title="Misc"></siteMapNode>
+        <siteMapNode url="~/Reports/MISCReport.aspx" description="Misc Enquiry" title="Misc Enquiry"></siteMapNode>
+        <siteMapNode url="~/Reports/frmMISCReports.aspx" description="MISC Report" title="Report"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="NOC" description="NOC"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/Noc.aspx" description="NOC" title="NOC"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Operational Ref" description="Operational Ref"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/frmOperationalRef.aspx" description="Operational Ref"
+          title="Operational Ref"></siteMapNode>
+        <siteMapNode url="~/Reports/frmORReports.aspx" description="Operational Ref Report"
+          title="Report"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="RRB" description="RRB"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/frmRRB.aspx" description="RRB" title="RRB"></siteMapNode>
+        <siteMapNode url="~/Mis/RRB.aspx" description="RRB New" title="RRB New"></siteMapNode>
+        <siteMapNode url="~/Reports/frmRRBReports.aspx" description="RRB Report" title="Report"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="RTI" description="RTI"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/frmRTI.aspx" description="RTI" title="RTI"></siteMapNode>
+        <siteMapNode url="~/Reports/frmRTIReports.aspx" description="RTI Report" title="Report"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="SR" description="SR Structure"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/frmSRStructure.aspx" description="SR" title="SR"></siteMapNode>
+        <siteMapNode url="~/Mis/SR.aspx" description="SR New" title="SR New"></siteMapNode>
+        <siteMapNode url="~/Reports/frmSRReports.aspx" description="SR Report" title="Report"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Sanction" description="Sanction for Prosecution"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/frmSanction.aspx" description="Sanction for Prosecution"
+          title="Sanction for Prosecution"></siteMapNode>
+        <siteMapNode url="~/Mis/SanctionForInvestigation.aspx"
+          description="Sanction for Investigation" title="Sanction for Investigation"></siteMapNode>
+        <siteMapNode url="~/Reports/SanctionForInvestigationReports.aspx"
+          description="Sanction for Investigation Reports"
+          title="Sanction for Investigation Reports"></siteMapNode>
+        <siteMapNode url="~/Mis/SanctionForProsecution.aspx" description="Sanction for Prosecution"
+          title="Sanction for Prosecution"></siteMapNode>
+        <siteMapNode url="~/Reports/SanctionForProsecutionReports.aspx"
+          description="Sanction for Prosecution Reports" title="Sanction for Prosecution Reports"></siteMapNode>
+        <siteMapNode url="~/Mis/SanctionDataUpload.aspx" description="Sanction Data Upload"
+          title="Sanction Data Upload"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Vigilance" description="Vigilance"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/frmVigilance.aspx" description="Vigilance" title="Vigilance"></siteMapNode>
+        <siteMapNode url="~/Mis/Vigilance.aspx" description="Vigilance New" title="Vigilance New"></siteMapNode>
+        <siteMapNode url="~/Mis/VigilanceMonitoring.aspx" description="Vigilance Monitoring"
+          title="Vigilance Monitoring"></siteMapNode>
+        <siteMapNode url="~/Mis/PenaltyCharge.aspx"
+          description="Penalty not Commensurate with Charges"
+          title="Penalty not Commensurate with Charges"></siteMapNode>
+        <siteMapNode url="~/Mis/frmVigilanceUpdate.aspx" description="Vigilance Update"
+          title="Vigilance Update" roles="VMIS_MISUSER"></siteMapNode>
+        <siteMapNode url="~/Reports/VigilanceCaseStatus.aspx" description="Vigilance Case Status"
+          title="Vigilance Case Status"></siteMapNode>
+        <siteMapNode url="~/Reports/frmVigilanceReports.aspx" description="Vigilance Report"
+          title="Report"></siteMapNode>
+        <siteMapNode url="~/Reports/PenaltyChargeReport.aspx"
+          description="Penalty not Commensurate with Charges Report"
+          title="Penalty not Commensurate with Charges Report"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="WB" description="WB Structure"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Mis/frmWBStructure.aspx" description="WB" title="WB"></siteMapNode>
+        <siteMapNode url="~/Mis/WB.aspx" description="WB New" title="WB New"></siteMapNode>
+        <siteMapNode url="~/Reports/frmWBReports.aspx" description="Whistle Blower (WB) Report"
+          title="Report"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Search" description="Search"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Search/frmTableWiseSearch.aspx" description="Form Wise Search"
+          title="Form Wise Search" roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
+        <siteMapNode url="~/Search/frmCustomizeReports.aspx" description="User Customize Report"
+          title="Customize Report" roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
+        <siteMapNode url="~/Search/frmVigilanceStatusSearch.aspx"
+          description="Vigilance Status Search" title="Vigilance Status"
+          roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
+        <siteMapNode url="~/Search/RetirementCases.aspx" description="Retirement Cases"
+          title="Retirement Cases" roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
+        <siteMapNode url="~/Search/frmEOSearch.aspx" description="Accused / EO Search"
+          title="Accused / EO Search" roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Upload" description="Upload" roles="VMIS_MISUSER">
+        <siteMapNode url="~/Upload/frmExcelUpload.aspx" description="Excel Upload For Form"
+          title="Excel Upload For Form" roles="VMIS_MISUSER"></siteMapNode>
+        <siteMapNode url="~/Upload/frmExcelPF.aspx" description="Excel Upload of PF"
+          title="Excel Upload of PF" roles="VMIS_MISUSER"></siteMapNode>
+        <siteMapNode url="~/Upload/frmExcelPFEODetails.aspx" description="Excel Upload of EO PF"
+          title="Excel Upload of EO PF" roles="VMIS_MISUSER"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Report" description="Report"
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+        <siteMapNode url="~/Reports/frmCaseRegister.aspx" description="Case Register"
+          title="Case Register" roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
+        <siteMapNode url="~/Reports/frmComplaintRpt.aspx" description="Report"
+          title="Complaint Report" roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
+        <siteMapNode url="~/Reports/frmMiscellaneousReports.aspx" description="MISC Report"
+          title="MISC Report" roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
+      </siteMapNode>
+      <siteMapNode url="" title="Report" description="Report" roles="VMIS_ADMIN">
+        <siteMapNode url="~/Search/frmAuditTrailSearch.aspx" description="Audit Trail Report"
+          title="Audit Trail Report" roles="VMIS_ADMIN"></siteMapNode>
+      </siteMapNode>
+      <!--<siteMapNode
+      url="~/frmChangePassword.aspx" title="Change Password" description="Change your own password"
+      roles="VMIS_SUPERUSER,VMIS_ADMIN,VMIS_USER,VMIS_DESKUSER,VMIS_VIEWUSER">
+      </siteMapNode>-->
+    </siteMapNode>
+  </siteMapNode>
+</siteMap>

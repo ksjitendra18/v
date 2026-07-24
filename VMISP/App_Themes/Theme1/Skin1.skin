@@ -1,0 +1,33 @@
+<%--
+Default skin template. The following skins are provided as examples only.
+
+1. Named control skin. The SkinId should be uniquely defined because
+   duplicate SkinId's per control type are not allowed in the same theme.
+
+<asp:GridView runat="server" SkinId="gridviewSkin" BackColor="White" >
+   <AlternatingRowStyle BackColor="Blue" />
+</asp:GridView>
+
+2. Default skin. The SkinId is not defined. Only one default 
+   control skin per control type is allowed in the same theme.
+
+<asp:Image runat="server" ImageUrl="~/images/image1.jpg" />
+--%>
+
+
+<asp:button runat="server"  font-bold="true" />
+
+<asp:GridView runat="server"  Font-Size="Small"  GridLines="None" AutoGenerateColumns="False"  CellPadding="5" >
+        <RowStyle BackColor="#E3EEFB" HorizontalAlign="Left"  />
+        <FooterStyle  BackColor="#123964"   ForeColor="White" />
+        <PagerStyle BackColor="#123964" ForeColor="#FFFFFF"   />
+        <SelectedRowStyle BackColor="#4B6C9E"  ForeColor="White" HorizontalAlign="Left"/>
+        <HeaderStyle BackColor="#123964"  ForeColor="White" HorizontalAlign="Left"  />
+        <AlternatingRowStyle BackColor="#CFE4FF" HorizontalAlign="Left" />
+</asp:GridView>
+
+<asp:RegularExpressionValidator  runat="server"  Display="Static"   Font-Size="Large" ForeColor="Red"    FontBold="true" ></asp:RegularExpressionValidator>
+<asp:RequiredFieldValidator  runat="server"  ErrorMessage="*Mandatory" Display="Static"  Font-Size="Medium" ForeColor="Red"     FontBold="true"  ></asp:RequiredFieldValidator>
+<asp:CompareValidator runat="server"   ValueToCompareErrorMessage="*"  Font-Size="Medium" ForeColor="Red"    Display="Static"   FontBold="true" ></asp:CompareValidator>
+
+

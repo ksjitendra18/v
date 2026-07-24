@@ -1,0 +1,187 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="SiteMaster.master.cs" Inherits="VMISP.SiteMaster" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title>Vigilance Management Information System Portal</title>
+    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <script type="text/javascript">
+        function validateFileExtension(fld) {
+            if (!/(\.xlsx|\.xls)$/i.test(fld.value)) {
+                alert("Invalid file type, upload only Excel file.");
+                fld.focus();
+                return false;
+            }
+            return true;
+        }
+
+    </script>
+    <style type="text/css">
+        #logo {
+            float: left;
+            width: 10.5em;
+            background: #CCCCCC;
+            padding: 0.5em 0.5em 0.5em 1em;
+            margin: 0;
+        }
+
+        .primaryStaticMenu {
+            background-color: transparent;
+            float: right;
+        }
+
+        .primaryStaticMenuItem {
+            width: 10em;
+            background-color: #f7f2ea;
+            border-width: 1px;
+            border-color: #efefef #aaab9c #ccc #efefef;
+            border-style: solid;
+            color: #777777;
+            padding: 0.5em 0 0.5em 1em;
+        }
+
+        .primaryStaticHover {
+            color: #800000;
+            background: #f0e7d7;
+        }
+
+        .primaryDynamicMenu {
+            background-color: #f7f2ea;
+            border-bottom: solid 1px #ccc;
+        }
+
+        .primaryDynamicMenuItem {
+            width: 10em;
+            background-color: #f7f2ea;
+            color: #777;
+            padding: 0.5em 0 0.5em 1em;
+            border-width: 1px;
+            border-color: #f7f2ea #aaab9c #f7f2ea #efefef;
+            border-style: solid;
+        }
+
+        .primaryDynamicHover {
+            color: #800000;
+            background: #f0e7d7;
+        }
+
+        .secondaryLevelOne {
+            background-color: transparent;
+            background-repeat: repeat-x;
+            margin: 1.5em 0 0 0;
+            padding: 5px 0 0 5px;
+            width: 12em;
+            height: 35px;
+        }
+
+        .secondaryLevelTwo {
+            background: #FAFBFB;
+            padding: 5px 0 5px 5px;
+        }
+
+        .secondaryStaticHover {
+            color: #800000;
+        }
+    </style>
+    <script type="text/javascript">
+        window.onload = function () {
+            noBack();
+        }
+        function noBack() {
+            window.history.forward();
+        }
+    </script>
+    <script type="text/javascript">
+        function blockSpecialChar(e) {
+            var k;
+            document.all ? k = e.keyCode : k = e.which;
+            return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+        }
+        function isNumberKey(evt) {
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57))
+                return false;
+            return true;
+        }
+    </script>
+</head>
+<%--<body oncut="return false;" oncopy="return false;" onpaste="return false;">--%>
+<body>
+    <form runat="server">
+        <div class="page">
+            <div class="header">
+                <div class="title">
+                    <h1>
+                        <asp:Image ID="Image1" ImageUrl="~/images/pnb.jpg" ImageAlign="AbsMiddle" runat="server" />
+                        Vigilance Management Information System Portal
+                    </h1>
+                </div>
+                <div class="loginDisplay">
+                    <asp:LoginView ID="HeadLoginView" runat="server" EnableViewState="false">
+                        <AnonymousTemplate>
+                            [ <a href="~/Login.aspx" id="HeadLoginStatus" runat="server">Log In</a> ]
+                        </AnonymousTemplate>
+                        <LoggedInTemplate>
+                            Welcome <span class="bold">
+                                <asp:LoginName ID="HeadLoginName" runat="server" />
+                            </span>! [
+                        <asp:LoginStatus ID="HeadLoginStatus" runat="server" LogoutText="Log Out" OnLoggedOut="LoginStatus1_LoggedOut" />
+                            ]
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </div>
+                <div class="clear hideSkiplink" style="width: 100%">
+                    <asp:Menu ID="NavigationMenu" runat="server" DataSourceID="SiteMapDataSource1" CssClass="menu"
+                        EnableViewState="False" IncludeStyleBlock="False" Orientation="Horizontal" StaticDisplayLevels="3"
+                        Font-Bold="True" Font-Size="X-Small" ForeColor="Black" BackColor="#FFFBD6" DynamicHorizontalOffset="2"
+                        Font-Names="Verdana" Height="30px" StaticSubMenuIndent="10px" Width="100%">
+                        <DynamicHoverStyle BackColor="#990000" ForeColor="White" />
+                        <DynamicMenuItemStyle HorizontalPadding="5px" VerticalPadding="2px" />
+                        <DynamicMenuStyle BackColor="#FFFBD6" />
+                        <DynamicSelectedStyle BackColor="#FFCC66" />
+                        <StaticHoverStyle BackColor="#990000" ForeColor="White" />
+                        <StaticSelectedStyle BackColor="#FFCC66" />
+                    </asp:Menu>
+                    <asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" />
+                </div>
+            </div>
+            <table style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #808080; width: 99%; background-color: #C0C0C0; text-align: right;">
+                <tr style="font-family: Verdana; font-size: x-small; font-weight: bold; font-style: normal; color: #000000; width: 100%; border-bottom-style: solid; border-bottom-width: 10px; border-bottom-color: #C0C0C0;">
+                    <td style="border-right: 1px solid #5f656d; text-align: right;">
+                        <asp:Label ID="Label1" runat="server" CssClass="lblCaptionHead"></asp:Label>&nbsp;&nbsp;
+                    </td>
+                    <td style="width: 15%; border-right: 1px solid #5f656d; text-align: right;">
+                        <asp:Label ID="Label2" runat="server" CssClass="lblCaptionHead"></asp:Label>&nbsp;&nbsp;
+                    </td>
+                    <td style="border-right: 0px solid #5f656d; text-align: right;">
+                        <asp:Label ID="Label4" runat="server" CssClass="lblCaptionHead"></asp:Label>
+                    </td>
+                    <td style="width: 15%; border-right: 1px solid #5f656d; text-align: right;">
+                        <asp:Label ID="Label3" runat="server" CssClass="lblCaptionHead"></asp:Label>&nbsp;&nbsp;
+                    </td>
+                    <td style="border-right: 0px solid #5f656d; text-align: right;">
+                        <asp:Label ID="lblDateTime" runat="server" CssClass="lblCaptionHead"></asp:Label>&nbsp;&nbsp;
+                    </td>
+                </tr>
+            </table>
+            <asp:ScriptManager ID="ScriptManager1" runat="server">
+            </asp:ScriptManager>
+            <asp:ContentPlaceHolder ID="cphTitle" runat="server">
+            </asp:ContentPlaceHolder>
+            <div class="main">
+                <asp:ContentPlaceHolder ID="cphBody" runat="server" />
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="footer">
+            <%-- <asp:Label ID="lblFooter" runat="server" Text="Copyright © 2017"></asp:Label>&nbsp<asp:HyperLink
+            ID="hlFooter" runat="server" Text="Punjab National Bank" NavigateUrl="https://www.pnbindia.in/"
+            Target="_blank"></asp:HyperLink>&nbsp<asp:Label ID="LlblFooter1" runat="server" Text="All rights reserved."></asp:Label>--%>
+        </div>
+    </form>
+</body>
+</html>
