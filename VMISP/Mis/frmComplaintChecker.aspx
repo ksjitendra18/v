@@ -18,6 +18,10 @@
     <style>
 
         #custom-heading { color: white; }
+
+        .page-header h3, .page-header h3 * { color:#fff !important; }
+
+        .table td .btn-primary, .table td .btn-primary * { color:#fff !important; }
         body{
             background:#f5f6fa;
         }
@@ -189,7 +193,7 @@
         <asp:TemplateField HeaderText="Status">
             <ItemTemplate>
                 <span class='badge <%# GetStatusClass(Eval("APPROVALSTATUS").ToString()) %>'>
-                    <%# Eval("APPROVALSTATUS") %>
+                    <%# GetStatusText(Eval("APPROVALSTATUS").ToString()) %>
                 </span>
             </ItemTemplate>
         </asp:TemplateField>

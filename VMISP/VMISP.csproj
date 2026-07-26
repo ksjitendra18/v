@@ -57,6 +57,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="netstandard, Version=2.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51">
+      <HintPath>C:\Windows\Microsoft.NET\Framework64\v4.0.30319\netstandard.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
       <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
     </Reference>
@@ -276,6 +280,7 @@
     <Content Include="Mis\frmABBFF.aspx" />
     <Content Include="Mis\frmComplaintChecker.aspx" />
     <Content Include="Mis\frmComplaintCheckerView.aspx" />
+    <Content Include="Mis\frmComplaintView.aspx" />
     <Content Include="Mis\frmRRB.aspx" />
     <Content Include="Mis\frmSanction.aspx" />
     <Content Include="Mis\Vigilance.aspx" />
@@ -816,6 +821,13 @@
     </Compile>
     <Compile Include="Mis\frmComplaintCheckerView.aspx.designer.cs">
       <DependentUpon>frmComplaintCheckerView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Mis\frmComplaintView.aspx.cs">
+      <DependentUpon>frmComplaintView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mis\frmComplaintView.aspx.designer.cs">
+      <DependentUpon>frmComplaintView.aspx</DependentUpon>
     </Compile>
     <Compile Include="Mis\frmRRB.aspx.cs">
       <DependentUpon>frmRRB.aspx</DependentUpon>

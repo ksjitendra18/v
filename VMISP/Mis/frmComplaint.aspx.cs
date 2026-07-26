@@ -948,8 +948,15 @@ namespace VMISP.Mis
                     btn.CssClass = "btn btn-sm btn-info";
                     break;
 
+                case "X":
+                    // Rejected by checker - locked from editing for now.
+                    btn.Enabled = false;
+                    btn.Text = "Rejected";
+                    btn.CssClass = "btn btn-sm btn-danger";
+                    break;
+
                 default:
-                    // Existing records (NULL) and approved/rejected records
+                    // Existing records (NULL) and approved records.
                     // Keep current behaviour.
                     btn.Enabled = true;
                     btn.Text = "Edit";

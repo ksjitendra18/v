@@ -33,7 +33,7 @@ namespace VMISP.Mis
         FROM COMPLAINT C
         INNER JOIN MakerCheckerMapping UZM
             ON C.NEWZONE = UZM.ZoneSolID
-        WHERE UZM.UserPF = '5224503'
+        WHERE UZM.UserPF = @UserPF
             AND UZM.IsChecker = 1
             AND UZM.IsActive = 1
             AND C.APPROVALSTATUS = 'P'
@@ -62,16 +62,37 @@ namespace VMISP.Mis
                     return "badge-pending";
 
                 case "A":
-                    return "badge-progress";
+                    return "badge-closed";
 
-                case "R":
+                case "X":
                     return "bg-danger";
 
                 case "C":
-                    return "badge-closed";
+                    return "badge-progress";
 
                 default:
                     return "bg-secondary";
+            }
+        }
+
+        protected string GetStatusText(string status)
+        {
+            switch ((status ?? "").Trim().ToUpper())
+            {
+                case "P":
+                    return "Pending";
+
+                case "A":
+                    return "Approved";
+
+                case "X":
+                    return "Rejected";
+
+                case "C":
+                    return "Changes Requested";
+
+                default:
+                    return status;
             }
         }
     }

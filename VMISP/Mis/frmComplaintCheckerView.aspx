@@ -17,36 +17,62 @@
     <style>
         :root {
             --primary: #9F2925;
-            --primary-dark: #7b1d1b;
+            --primary-dark: #7d1d1a;
             --light: #f8f9fa;
         }
 
         body {
-            background: #f4f6f9;
+            background: #f5f6fa;
         }
 
         .page-header {
-            background: linear-gradient(90deg,#9F2925,#bb4743);
+            background: linear-gradient(90deg,var(--primary),#b73d38);
             color: #fff;
-            padding: 25px;
-            border-radius: 14px;
+            padding: 22px;
+            border-radius: 12px;
             margin-bottom: 25px;
-            box-shadow: 0 10px 25px rgba(0,0,0,.12);
         }
 
-        .info-card {
+        .page-header h2, .page-header h2 *, .page-header h4, .page-header h4 * {
+            color: #fff !important;
+        }
+
+        .card-custom {
             border: none;
-            border-radius: 14px;
-            box-shadow: 0 6px 18px rgba(0,0,0,.08);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,.08);
             margin-bottom: 25px;
         }
 
-            .info-card .card-header {
-                background: #D6D8D9;
+            .card-custom .card-header {
+                background: #fff;
                 font-weight: 600;
-                color: #9F2925;
+                color: var(--primary);
                 border-bottom: 2px solid #f1f1f1;
             }
+
+        .btn-primary {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+        }
+
+        .badge-pending {
+            background: #ffc107;
+            color: #000;
+        }
+
+        .badge-progress {
+            background: #0d6efd;
+        }
+
+        .badge-closed {
+            background: #198754;
+        }
 
         .form-control,
         .form-select {
@@ -142,7 +168,7 @@
 
                     </h4>
 
-                    <span class="badge bg-warning text-dark badge-status">
+                    <span id="spanStatus" runat="server" class="badge badge-status">
 
                         <asp:Label ID="lblStatus"
                             runat="server"
@@ -156,7 +182,7 @@
 
         </div>
 
-        <div class="card info-card">
+        <div class="card card-custom">
 
             <div class="card-header">
 
@@ -225,7 +251,7 @@
         </div>
 
 
-        <div class="card info-card">
+        <div class="card card-custom">
 
             <div class="card-header">
 
@@ -289,7 +315,7 @@
 
 
 
-        <div class="card info-card">
+        <div class="card card-custom">
 
             <div class="card-header">
 
@@ -453,7 +479,7 @@
 
         </div>
 
-        <div class="card info-card">
+        <div class="card card-custom">
 
             <div class="card-header">
                 <i class="bi bi-person-badge"></i>
@@ -536,7 +562,7 @@
 
         </div>
 
-        <div class="card info-card">
+        <div class="card card-custom">
 
             <div class="card-header">
                 <i class="bi bi-envelope-paper"></i>
@@ -601,7 +627,7 @@
 
         </div>
 
-        <div class="card info-card">
+        <div class="card card-custom">
 
             <div class="card-header">
 
@@ -663,7 +689,7 @@
 
         </div>
 
-        <div class="card info-card">
+        <div class="card card-custom">
 
             <div class="card-header">
 
@@ -726,7 +752,7 @@
         </div>
 
 
-        <div class="card info-card mb-5">
+        <div class="card card-custom mb-5">
 
             <div class="card-header bg-white">
 
@@ -737,6 +763,10 @@
             </div>
 
             <div class="card-body">
+
+                <asp:Label ID="lblMsg" runat="server" CssClass="d-block mb-3 fw-semibold" EnableViewState="false" />
+
+                <asp:Panel ID="pnlDecision" runat="server">
 
                 <div class="alert alert-warning">
 
@@ -769,23 +799,25 @@
 
                 </div>
 
+                </asp:Panel>
+
             </div>
 
         </div>
 
-        <div class="sticky-bottom bg-white border-top shadow-lg p-3">
+        <asp:Panel ID="pnlActions" runat="server" CssClass="sticky-bottom bg-white border-top shadow-lg p-3">
 
             <div class="container-fluid">
 
                 <div class="d-flex justify-content-end gap-2">
 
-                <%--    <asp:Button
+                    <asp:Button
                         ID="btnReject"
                         runat="server"
                         CssClass="btn btn-danger btn-lg px-4"
                         Text="Reject"
                         OnClick="btnReject_Click"
-                        OnClientClick="return confirm('Reject this complaint?');" />
+                        OnClientClick="return validateCheckerAction('Reject this complaint?');" />
 
                     <asp:Button
                         ID="btnPushBack"
@@ -793,7 +825,7 @@
                         CssClass="btn btn-warning btn-lg px-4"
                         Text="Push Back"
                         OnClick="btnPushBack_Click"
-                        OnClientClick="return confirm('Push back this complaint for correction?');" />
+                        OnClientClick="return validateCheckerAction('Push back this complaint for correction?');" />
 
                     <asp:Button
                         ID="btnAccept"
@@ -801,11 +833,23 @@
                         CssClass="btn btn-success btn-lg px-5"
                         Text="Accept"
                         OnClick="btnAccept_Click"
-                        OnClientClick="return confirm('Approve this complaint?');" />--%>
+                        OnClientClick="return validateCheckerAction('Approve this complaint?');" />
 
                 </div>
 
             </div>
 
-        </div>
+        </asp:Panel>
+
+        <script>
+            function validateCheckerAction(confirmMsg) {
+                var remarksBox = document.getElementById('<%= txtCheckerRemarks.ClientID %>');
+                if (!remarksBox || remarksBox.value.trim() === '') {
+                    alert('Checker Remarks are mandatory before taking any action.');
+                    if (remarksBox) { remarksBox.focus(); }
+                    return false;
+                }
+                return confirm(confirmMsg);
+            }
+        </script>
 </asp:Content>

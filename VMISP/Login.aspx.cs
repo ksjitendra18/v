@@ -78,11 +78,11 @@ namespace VMISP
             Session["returnURL"] = "https://10.192.3.99/ssouat/sso.php";
             //funcSSOLogin("5180079", "https://10.192.3.99/ssouat/sso.php");
             //funcSSOLogin("5224580", "https://10.192.3.99/ssouat/sso.php");
-            funcSSOLogin("5167639", "https://10.192.3.99/ssouat/sso.php");
-            //funcSSOLogin("5224579", "https://10.192.3.99/ssouat/sso.php");
+            //funcSSOLogin("5167639", "https://10.192.3.99/ssouat/sso.php"); // VMIS_DESKUSER
+            //funcSSOLogin("5224579", "https://10.192.3.99/ssouat/sso.php"); //admin
             //funcSSOLogin("5213381", "https://10.192.3.99/ssouat/sso.php");
-            //funcSSOLogin("5224503", "https://10.192.3.99/ssouat/sso.php");
-            //funcSSOLogin("5224563", "https://10.192.3.99/ssouat/sso.php");
+         // funcSSOLogin("5224503", "https://10.192.3.99/ssouat/sso.php"); //checker
+            funcSSOLogin("5224563", "https://10.192.3.99/ssouat/sso.php"); //mis
             //funcSSOLogin("5224579", "https://10.192.3.99/ssouat/sso.php");
         }
 
@@ -209,7 +209,7 @@ namespace VMISP
             }
             catch (Exception ex)
             {
-                VMISP.VMISP_COMM_ERROR_TRACK.VMISP_Error_Log.HandleException(ex);
+                //VMISP.VMISP_COMM_ERROR_TRACK.VMISP_Error_Log.HandleException(ex);
             }
         }
         protected void aspLogin_Authenticate(object sender, AuthenticateEventArgs e)

@@ -423,6 +423,14 @@
                                                                 <asp:Button ID="btnView" runat="server" CausesValidation="false" CommandName="View" ToolTip='<%# Eval("CODE") %>' CommandArgument='<%# Eval("CODE")%>' CssClass="btn btn-sm btn-danger" Text="Edit" />
                                                             </ItemTemplate>
                                                         </asp:TemplateField>
+                                                        <asp:TemplateField>
+                                                            <HeaderTemplate>
+                                                                View
+                                                            </HeaderTemplate>
+                                                            <ItemTemplate>
+                                                                <asp:HyperLink runat="server" CssClass="btn btn-sm btn-primary" NavigateUrl='<%# "frmComplaintView.aspx?id=" + Eval("RNO") %>' Text="View" />
+                                                            </ItemTemplate>
+                                                        </asp:TemplateField>
                                                         <asp:BoundField DataField="RNO" HeaderText="Complaint No" />
                                                         <asp:BoundField DataField="COMPRECDATE" HeaderText="Comp Rec Date" />
                                                         <asp:BoundField DataField="BRCOMPLAINT" HeaderText="BR Complaint" />
@@ -435,6 +443,9 @@
                                                         <asp:BoundField
                                                             DataField="APPROVALSTATUSTEXT"
                                                             HeaderText="Checker Status" />
+                                                        <asp:BoundField
+                                                            DataField="CHECKERREMARKS"
+                                                            HeaderText="Checker Remarks" />
                                                         <asp:TemplateField>
                                                             <HeaderTemplate>
                                                                 Status
