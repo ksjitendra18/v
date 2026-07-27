@@ -5,7 +5,7 @@
   <siteMapNode url="~/Default.aspx" title=" Home"
     description="Wecome to Vigilance Management Information System Portal">
     <siteMapNode url="" title="" description=""
-      roles="VMIS_SUPERUSER,VMIS_ADMIN,VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
+      roles="VMIS_SUPERUSER,VMIS_ADMIN,VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER,VMIS_CHECKER">
       <siteMapNode url="" title="User Maintenance" description="User Maintenance"
         roles="VMIS_SUPERUSER,VMIS_ADMIN">
         <siteMapNode url="~/Admin/Usercreation.aspx" description="User Creation"
@@ -47,21 +47,26 @@
           title="Disable Lodi Details" roles="VMIS_SUPERUSER,VMIS_ADMIN"></siteMapNode>
       </siteMapNode>
       <siteMapNode url="" title="Complaint" description="Complaint"
-        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
-        <siteMapNode url="~/Mis/frmComplaint.aspx" description="Complaint" title="Complaint"></siteMapNode>
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER,VMIS_CHECKER">
+        <siteMapNode url="~/Mis/frmComplaint.aspx" description="Complaint" title="Complaint"
+          roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
         <siteMapNode url="~/Mis/frmComplaintUpdate.aspx" description="Complaint Update"
           title="Complaint Update" roles="VMIS_MISUSER"></siteMapNode>
         <siteMapNode url="~/Mis/frmComplaintChecker.aspx" description="Complaint Checker Inbox"
           title="Complaint Checker Inbox" roles="VMIS_CHECKER"></siteMapNode>
         <siteMapNode url="~/Reports/frmComplaintReports.aspx" description="Complaint Report"
-          title="Report"></siteMapNode>
+          title="Report" roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
       </siteMapNode>
       <siteMapNode url="" title="IAC" description="IAC Structure"
-        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
-        <siteMapNode url="~/Mis/frmIACStructure.aspx" description="IAC" title="IAC"></siteMapNode>
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER,VMIS_CHECKER">
+        <siteMapNode url="~/Mis/frmIACStructure.aspx" description="IAC" title="IAC"
+          roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
         <siteMapNode url="~/Mis/frmIACUpdate.aspx" description="IAC Update" title="IAC Update"
           roles="VMIS_MISUSER"></siteMapNode>
-        <siteMapNode url="~/Reports/frmIACReports.aspx" description="IAC Report" title="Report"></siteMapNode>
+        <siteMapNode url="~/Mis/frmIACChecker.aspx" description="IAC Checker Inbox"
+          title="IAC Checker Inbox" roles="VMIS_CHECKER"></siteMapNode>
+        <siteMapNode url="~/Reports/frmIACReports.aspx" description="IAC Report" title="Report"
+          roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
       </siteMapNode>
       <siteMapNode url="" title="LODI" description="LODI"
         roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">

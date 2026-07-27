@@ -5,6 +5,12 @@
 **Based on:** live `VigilanceMISDB` on `localhost\SQLEXPRESS` + code review
 **Companions:** `VMIS_Technical_Overview.md`, `VMIS_Database_Inventory.md`
 
+> **Status update — 2026-07-27.** The Option 2 recommendation in §5 was accepted and built.
+> The central foundation (`WORKFLOW_MODULE`, `CASE_APPROVAL`, `CASE_APPROVAL_HISTORY`,
+> `spCase_CheckerAction`, `spCase_CheckerQueue`) is live, and **IAC** is the first module on it.
+> See **`VMIS_IAC_MakerChecker_Implementation.md`** for what was built, what was verified, and
+> the recipe for the next module. Phasing in §8 below is superseded by that document's §9.
+
 ---
 
 ## 1. Summary

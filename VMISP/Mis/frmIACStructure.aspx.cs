@@ -242,14 +242,19 @@ namespace VMISP.Mis
                 cmdSave.Parameters.AddWithValue("@p_USERIP", objCommonFunction.funcGetUserIP());
                 cmdSave.CommandTimeout = 0;
 
-                if (cmdSave.ExecuteNonQuery() > 0)
+                cmdSave.ExecuteNonQuery();
+
+                // Drive off the proc's own status code rather than the affected-row count: the
+                // maker-checker guards (zone missing, record pending, record rejected) refuse
+                // the save without running any DML, and their message has to reach the user.
+                int errCode = Convert.ToInt32(sqlErrCodeOutput.Value);
+                string errMsg = Convert.ToString(sqlErrMsgOutput.Value);
+
+                lblMsg.Text = string.IsNullOrEmpty(errMsg) ? "Error in IAC Insert/ Update." : errMsg;
+
+                if (errCode == 1 || errCode == 2)
                 {
-                    lblMsg.Text = Convert.ToString(sqlErrMsgOutput.Value);
                     funcClear();
-                }
-                else
-                {
-                    lblMsg.Text = "Error in IAC Insert/ Update.";
                 }
             }
             catch (Exception es)
@@ -410,6 +415,40 @@ namespace VMISP.Mis
             txtABBFFReferenceNumber.Text = Convert.ToString(dtData.Rows[0]["ABBFF_REFNO"]);
             txtABBFFAdviceReceiveDate.Text = Convert.ToString(dtData.Rows[0]["ABBFF_ADVICE_RECEIVE_DATE"]);
             txtABBFFAdviceDetail.Text = Convert.ToString(dtData.Rows[0]["ABBFF_ADVICE_DETAIL"]);
+
+            funcApplyCheckerLock(dtData);
+        }
+
+        /// <summary>
+        /// Fetching a record by IAC number bypasses the grid, so re-apply the same lock here:
+        /// a record awaiting verification or rejected by the checker is not editable.
+        /// spIACStructure_Update refuses these too -- this only spares the user a pointless save.
+        /// </summary>
+        private void funcApplyCheckerLock(DataTable dtData)
+        {
+            if (!dtData.Columns.Contains("APPROVALSTATUS"))
+                return;
+
+            string approvalStatus = Convert.ToString(dtData.Rows[0]["APPROVALSTATUS"]);
+            string checkerRemarks = dtData.Columns.Contains("CHECKERREMARKS")
+                ? Convert.ToString(dtData.Rows[0]["CHECKERREMARKS"])
+                : string.Empty;
+
+            if (approvalStatus == "P")
+            {
+                btnUpdate.Visible = false;
+                lblMsg.Text = "This record is pending verification by the checker and cannot be edited.";
+            }
+            else if (approvalStatus == "X")
+            {
+                btnUpdate.Visible = false;
+                lblMsg.Text = "This record has been rejected by the checker and cannot be edited."
+                            + (string.IsNullOrEmpty(checkerRemarks) ? "" : " Remarks: " + checkerRemarks);
+            }
+            else if (approvalStatus == "C" && !string.IsNullOrEmpty(checkerRemarks))
+            {
+                lblMsg.Text = "The checker has asked for changes. Remarks: " + checkerRemarks;
+            }
         }
 
         public void funcClear()
@@ -504,8 +543,15 @@ namespace VMISP.Mis
 
                 foreach (GridViewRow row in gvMain.Rows)
                 {
-                    Button btnView = ((Button)row.FindControl("btnView")) as Button;
-                    btnView.Enabled = true;
+                    Button btnView = row.FindControl("btnView") as Button;
+
+                    if (btnView == null)
+                        continue;
+
+                    // Re-enable the row, except where gvMain_RowDataBound locked it because the
+                    // record is pending verification or has been rejected. Those stay locked for
+                    // every role.
+                    btnView.Enabled = btnView.Text == "Edit";
                 }
 
                 btnGet.Enabled = true;
@@ -608,11 +654,55 @@ namespace VMISP.Mis
 
         protected void gvMain_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
+            if (e.Row.RowType != DataControlRowType.DataRow)
+                return;
+
+            e.Row.Attributes.Add("onmouseover",
+               "this.originalcolor=this.style.backgroundColor;" + " this.style.backgroundColor='#20B2AA';");
+            e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=this.originalcolor;");
+
+            DataRowView drv = e.Row.DataItem as DataRowView;
+
+            if (drv == null || !drv.Row.Table.Columns.Contains("APPROVALSTATUS"))
+                return;
+
+            Button btn = e.Row.FindControl("btnView") as Button;
+
+            if (btn == null)
+                return;
+
+            // The button label is what funcControlsUserRights() reads back to decide whether a
+            // row may be reopened, so keep "Edit" reserved for genuinely editable records.
+            switch (Convert.ToString(drv["APPROVALSTATUS"]))
             {
-                e.Row.Attributes.Add("onmouseover",
-                   "this.originalcolor=this.style.backgroundColor;" + " this.style.backgroundColor='#20B2AA';");
-                e.Row.Attributes.Add("onmouseout", "this.style.backgroundColor=this.originalcolor;");
+                case "P":
+                    // Awaiting the checker. Not the maker's to change until they act.
+                    btn.Enabled = false;
+                    btn.Text = "Pending";
+                    btn.CssClass = "btn btn-sm btn-warning";
+                    break;
+
+                case "C":
+                    // Pushed back for correction - this is exactly what the maker should reopen.
+                    btn.Enabled = true;
+                    btn.Text = "Edit";
+                    btn.CssClass = "btn btn-sm btn-info";
+                    break;
+
+                case "X":
+                    // Rejected by the checker - locked.
+                    btn.Enabled = false;
+                    btn.Text = "Rejected";
+                    btn.CssClass = "btn btn-sm btn-danger";
+                    break;
+
+                default:
+                    // Approved, or a record that predates the workflow (NULL).
+                    // Editing it re-queues it for the checker.
+                    btn.Enabled = true;
+                    btn.Text = "Edit";
+                    btn.CssClass = "btn btn-sm btn-danger";
+                    break;
             }
         }
 

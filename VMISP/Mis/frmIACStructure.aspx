@@ -326,7 +326,7 @@
                                         <div class="form-group row">
                                             <div class="col-sm-12">
                                                 <%--  <asp:Panel ID="pnlList" runat="server" ScrollBars="Both" Width="100%">--%>
-                                                <asp:GridView ID="gvMain" runat="server" AutoGenerateColumns="False" OnRowCommand="gvMain_RowCommand" CssClass="table input-sm table-bordered table-condensed" PageSize="20">
+                                                <asp:GridView ID="gvMain" runat="server" AutoGenerateColumns="False" OnRowCommand="gvMain_RowCommand" OnRowDataBound="gvMain_RowDataBound" CssClass="table input-sm table-bordered table-condensed" PageSize="20">
                                                     <Columns>
                                                         <asp:TemplateField>
                                                             <HeaderTemplate>
@@ -350,6 +350,8 @@
                                                         <asp:BoundField DataField="AMOUNT" HeaderText="Amount" />
                                                         <asp:BoundField DataField="PFNUMBER" HeaderText="PF Number" />
                                                         <asp:BoundField DataField="STATUSCODE" HeaderText="Status Code" />
+                                                        <asp:BoundField DataField="APPROVALSTATUSTEXT" HeaderText="Checker Status" />
+                                                        <asp:BoundField DataField="CHECKERREMARKS" HeaderText="Checker Remarks" />
                                                         <asp:TemplateField>
                                                             <HeaderTemplate>
                                                                 Status

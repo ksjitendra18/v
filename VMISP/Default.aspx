@@ -549,25 +549,31 @@
 
 
 
-    <div id="pendingComplaintModal" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm">
+    <div id="pendingApprovalsModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
         <div class="modal-content">
 
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Pending Complaint Approval</h4>
+                <h4 class="modal-title">Pending Approvals</h4>
             </div>
 
-            <div class="modal-body text-center">
-                <h3 id="pendingCount"></h3>
-                <p>complaint(s) are pending for your approval.</p>
+            <div class="modal-body">
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th class="text-center">Pending</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <asp:PlaceHolder ID="phPendingApprovals" runat="server"></asp:PlaceHolder>
+                    </tbody>
+                </table>
             </div>
 
             <div class="modal-footer">
-                <a href="ComplaintApproval.aspx" class="btn btn-primary">
-                    Review Now
-                </a>
-
                 <button type="button" class="btn btn-default" data-dismiss="modal">
                     Later
                 </button>
@@ -577,5 +583,5 @@
     </div>
 </div>
 
-   
+
 </asp:Content>

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
+using System.Text;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.UI;
@@ -36,32 +37,113 @@ namespace VMISP
 
                 string userPF = Session["userid"].ToString();
 
-                int pendingCount = GetPendingComplaintCount(userPF);
+                List<CheckerModulePending> pendingRows = new List<CheckerModulePending>();
 
-                if (pendingCount > 0)
+                int pendingComplaintCount = GetPendingComplaintCount(userPF);
+                if (pendingComplaintCount > 0)
                 {
-                    //ScriptManager.RegisterStartupScript(
-                    //     this,
-                    //     GetType(),
-                    //     "PendingPopup",
-                    //     "$('#pendingCount').text('" + pendingCount + "');" +
-                    //     "$('#pendingComplaintModal').modal('show');",
-                    //     true);
+                    pendingRows.Add(new CheckerModulePending
+                    {
+                        ModuleName = "Complaint",
+                        Count = pendingComplaintCount,
+                        InboxUrl = "~/ComplaintApproval.aspx"
+                    });
+                }
+
+                pendingRows.AddRange(GetOtherPendingCheckerCounts(userPF));
+
+                if (pendingRows.Count > 0)
+                {
+                    StringBuilder rowsHtml = new StringBuilder();
+                    foreach (CheckerModulePending m in pendingRows)
+                    {
+                        rowsHtml.Append("<tr>");
+                        rowsHtml.Append("<td>" + HttpUtility.HtmlEncode(m.ModuleName) + "</td>");
+                        rowsHtml.Append("<td class=\"text-center\"><span class=\"label label-danger\">" + m.Count + "</span></td>");
+                        rowsHtml.Append("<td><a href=\"" + ResolveUrl(m.InboxUrl) + "\" class=\"btn btn-primary btn-sm\">Review Now</a></td>");
+                        rowsHtml.Append("</tr>");
+                    }
+                    phPendingApprovals.Controls.Add(new Literal { Text = rowsHtml.ToString() });
 
                     ScriptManager.RegisterStartupScript(
-        this,
-        GetType(),
-        "PendingPopup",
-        @"window.onload = function () {
-        $('#pendingCount').text('" + pendingCount + @"');
-        $('#pendingComplaintModal').modal('show');
-    };",
-        true);
+                        this,
+                        GetType(),
+                        "PendingPopup",
+                        "window.onload = function () { $('#pendingApprovalsModal').modal('show'); };",
+                        true);
                 }
                 logger.Info("line 24");
             }
         }
 
+        private sealed class CheckerModulePending
+        {
+            public string ModuleCode;
+            public string ModuleName;
+            public int Count;
+            public string InboxUrl;
+        }
+
+        private List<CheckerModulePending> GetOtherPendingCheckerCounts(string userPf)
+        {
+            // Modules on the central CASE_APPROVAL / WORKFLOW_MODULE workflow (see
+            // Docs/VMIS_IAC_MakerChecker_Implementation.md). Complaint is not here - it still
+            // uses its own inline-columns mechanism, handled by GetPendingComplaintCount above.
+            // WORKFLOW_MODULE.ViewPage is the checker's record-detail page, not the inbox list,
+            // so the inbox page for each module is mapped here; add a line as each module is rolled out.
+            Dictionary<string, string> checkerInboxPages = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "IAC", "~/Mis/frmIACChecker.aspx" }
+            };
+
+            List<CheckerModulePending> list = new List<CheckerModulePending>();
+
+            using (SqlConnection con = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbVIGILANCEMIS"].ConnectionString))
+            {
+                string query = @"
+            SELECT WM.ModuleCode, WM.ModuleName, COUNT(*) AS PendingCount
+            FROM CASE_APPROVAL CA
+            INNER JOIN WORKFLOW_MODULE WM
+                ON WM.ModuleCode = CA.ModuleCode
+                AND WM.IsActive = 1
+            INNER JOIN MakerCheckerMapping UZM
+                ON UZM.ZoneSolID = CA.ZoneSolID
+                AND UZM.IsChecker = 1
+                AND UZM.IsActive = 1
+            WHERE UZM.UserPF = @UserPF
+                AND CA.ApprovalStatus = 'P'
+            GROUP BY WM.ModuleCode, WM.ModuleName";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@UserPF", userPf);
+
+                con.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        string moduleCode = Convert.ToString(dr["ModuleCode"]);
+                        string inboxUrl;
+
+                        if (string.IsNullOrEmpty(moduleCode) || !checkerInboxPages.TryGetValue(moduleCode, out inboxUrl))
+                        {
+                            continue; // inbox page not registered yet for this module
+                        }
+
+                        list.Add(new CheckerModulePending
+                        {
+                            ModuleCode = moduleCode,
+                            ModuleName = Convert.ToString(dr["ModuleName"]),
+                            Count = Convert.ToInt32(dr["PendingCount"]),
+                            InboxUrl = inboxUrl
+                        });
+                    }
+                }
+            }
+
+            return list;
+        }
 
         private int GetPendingComplaintCount(string userPf)
         {

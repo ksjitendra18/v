@@ -81,8 +81,8 @@ namespace VMISP
             //funcSSOLogin("5167639", "https://10.192.3.99/ssouat/sso.php"); // VMIS_DESKUSER
             //funcSSOLogin("5224579", "https://10.192.3.99/ssouat/sso.php"); //admin
             //funcSSOLogin("5213381", "https://10.192.3.99/ssouat/sso.php");
-         // funcSSOLogin("5224503", "https://10.192.3.99/ssouat/sso.php"); //checker
-            funcSSOLogin("5224563", "https://10.192.3.99/ssouat/sso.php"); //mis
+           funcSSOLogin("5224503", "https://10.192.3.99/ssouat/sso.php"); //checker
+            //funcSSOLogin("5224563", "https://10.192.3.99/ssouat/sso.php"); //mis
             //funcSSOLogin("5224579", "https://10.192.3.99/ssouat/sso.php");
         }
 
