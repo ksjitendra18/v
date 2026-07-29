@@ -130,23 +130,29 @@
           title="Sanction Data Upload"></siteMapNode>
       </siteMapNode>
       <siteMapNode url="" title="Vigilance" description="Vigilance"
-        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
-        <siteMapNode url="~/Mis/frmVigilance.aspx" description="Vigilance" title="Vigilance"></siteMapNode>
-        <siteMapNode url="~/Mis/Vigilance.aspx" description="Vigilance New" title="Vigilance New"></siteMapNode>
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER,VMIS_CHECKER">
+        <siteMapNode url="~/Mis/frmVigilance.aspx" description="Vigilance" title="Vigilance"
+          roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
+        <siteMapNode url="~/Mis/Vigilance.aspx" description="Vigilance New" title="Vigilance New"
+          roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
+        <siteMapNode url="~/Mis/frmVigilanceChecker.aspx" description="Vigilance Checker Inbox"
+          title="Vigilance Checker Inbox" roles="VMIS_CHECKER"></siteMapNode>
         <siteMapNode url="~/Mis/VigilanceMonitoring.aspx" description="Vigilance Monitoring"
-          title="Vigilance Monitoring"></siteMapNode>
+          title="Vigilance Monitoring" roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
         <siteMapNode url="~/Mis/PenaltyCharge.aspx"
           description="Penalty not Commensurate with Charges"
-          title="Penalty not Commensurate with Charges"></siteMapNode>
+          title="Penalty not Commensurate with Charges"
+          roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
         <siteMapNode url="~/Mis/frmVigilanceUpdate.aspx" description="Vigilance Update"
           title="Vigilance Update" roles="VMIS_MISUSER"></siteMapNode>
         <siteMapNode url="~/Reports/VigilanceCaseStatus.aspx" description="Vigilance Case Status"
-          title="Vigilance Case Status"></siteMapNode>
+          title="Vigilance Case Status" roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
         <siteMapNode url="~/Reports/frmVigilanceReports.aspx" description="Vigilance Report"
-          title="Report"></siteMapNode>
+          title="Report" roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
         <siteMapNode url="~/Reports/PenaltyChargeReport.aspx"
           description="Penalty not Commensurate with Charges Report"
-          title="Penalty not Commensurate with Charges Report"></siteMapNode>
+          title="Penalty not Commensurate with Charges Report"
+          roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
       </siteMapNode>
       <siteMapNode url="" title="WB" description="WB Structure"
         roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">

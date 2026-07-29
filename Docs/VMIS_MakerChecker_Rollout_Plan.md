@@ -10,6 +10,12 @@
 > `spCase_CheckerAction`, `spCase_CheckerQueue`) is live, and **IAC** is the first module on it.
 > See **`VMIS_IAC_MakerChecker_Implementation.md`** for what was built, what was verified, and
 > the recipe for the next module. Phasing in §8 below is superseded by that document's §9.
+>
+> **Status update — 2026-07-29.** **Vigilance** is the second module on the central registry.
+> See **`VMIS_Vigilance_MakerChecker_Implementation.md`**. It also closed the
+> `spVigilanceUser_Update` bypass listed in §3.1 and repaired `spVigilanceExcel_Import`, which
+> had been non-functional. Remaining on the old per-table mechanism: **Complaint**.
+> Remaining Tier A: MISC, RTI, NOC, RRB, Vigilance Monitoring.
 
 ---
 

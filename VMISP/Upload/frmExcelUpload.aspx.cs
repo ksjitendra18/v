@@ -3969,6 +3969,12 @@ namespace VMISP.Upload
             string UNIQUENO = string.Empty;
             Int32 TotalRow = 0;
             string ROWNO = string.Empty;
+
+            // Rows the proc refuses (duplicate R number, or a blank zone that would leave the
+            // record unroutable to any checker). Reported back so a silent partial import cannot happen.
+            Int32 intSkippedRows = 0;
+            StringBuilder sbSkipped = new StringBuilder();
+
             try
             {
                 con.Open();
@@ -4322,24 +4328,58 @@ namespace VMISP.Upload
                         cmd.Parameters.AddWithValue("@p_ADDUSERIP", objCommonFunction.funcGetUserIP());
                         cmd.Parameters.AddWithValue("@p_ADDUSER", Convert.ToString(Session["userid"]));
 
+                        // The zone is what routes an imported record to a checker. The proc
+                        // rejects the row when it is blank and imports require checking.
+                        cmd.Parameters.AddWithValue("@p_NEWZONESOLID", Convert.ToString(row["NEWZONESOLID"]));
+                        cmd.Parameters.AddWithValue("@p_NEWCIRCLESOLID", Convert.ToString(row["NEWCIRCLESOLID"]));
+
                         cmd.CommandTimeout = 0;
-                        intErrCode = 0;
-                        if (cmd.ExecuteNonQuery() > 0)
+                        cmd.ExecuteNonQuery();
+
+                        intErrCode = Convert.ToInt32(sqlErrCodeOutput.Value);
+                        strErrMsg = Convert.ToString(sqlErrMsgOutput.Value);
+
+                        if (intErrCode == 1)
                         {
                             intTotalRowInsert = intTotalRowInsert + 1;
-                            strErrMsg = sqlErrMsgOutput.Value.ToString();
-                            intErrCode = Convert.ToInt32(sqlErrCodeOutput.Value);
                         }
                         else
                         {
-                            lblMsg.Text = "Error during Insert Vigilance Data";
-                            return;
+                            // The proc refused this row - a duplicate R number, or a blank
+                            // NEWZONESOLID that would leave the record unroutable to any checker.
+                            // Collect the reasons; the rest of the sheet still imports.
+                            intSkippedRows = intSkippedRows + 1;
+
+                            if (intSkippedRows <= 10)
+                            {
+                                sbSkipped.Append("<br/>Row ").Append(ROWNO).Append(" : ").Append(strErrMsg);
+                            }
                         }
                     }
-                    if (intErrCode.Equals(1))
+
+                    // Commit on whether anything actually imported, not on the last row's result.
+                    // Previously a single rejected row at the end of the sheet discarded the whole
+                    // upload silently - and rejected rows are far more likely now that a missing
+                    // zone is refused.
+                    if (intTotalRowInsert > 0)
                     {
                         txn.Commit();
-                        lblMsg.Text = intTotalRowInsert + " records added successfully";
+                    }
+                    else
+                    {
+                        txn.Rollback();
+                    }
+
+                    lblMsg.Text = intTotalRowInsert + " records added successfully";
+
+                    if (intSkippedRows > 0)
+                    {
+                        lblMsg.Text += "; " + intSkippedRows + " row(s) not imported:" + sbSkipped.ToString();
+
+                        if (intSkippedRows > 10)
+                        {
+                            lblMsg.Text += "<br/>... and " + (intSkippedRows - 10) + " more.";
+                        }
                     }
                 }
                 else

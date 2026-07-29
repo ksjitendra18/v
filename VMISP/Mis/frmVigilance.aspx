@@ -1784,6 +1784,10 @@
                                                         ItemStyle-CssClass="gridText" />
                                                     <asp:BoundField DataField="LODICODE" HeaderText="Lodi Code" SortExpression="LODICODE" HeaderStyle-CssClass="gridText"
                                                         ItemStyle-CssClass="gridText" />
+                                                    <asp:BoundField DataField="APPROVALSTATUSTEXT" HeaderText="Checker Status" HeaderStyle-CssClass="gridText"
+                                                        ItemStyle-CssClass="gridText" />
+                                                    <asp:BoundField DataField="CHECKERREMARKS" HeaderText="Checker Remarks" HeaderStyle-CssClass="gridText"
+                                                        ItemStyle-CssClass="gridText" />
                                                     <asp:TemplateField HeaderStyle-CssClass="gridText" ItemStyle-CssClass="gridText">
                                                         <HeaderTemplate>
                                                             Status

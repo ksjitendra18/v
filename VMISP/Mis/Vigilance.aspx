@@ -598,7 +598,7 @@
                                     </div>
                                     <div class="form-group row">
                                         <div class="col-sm-12">
-                                            <asp:GridView ID="gvMain" runat="server" OnRowCommand="gvMain_RowCommand" AutoGenerateColumns="false" CssClass="table input-sm table-bordered table-condensed">
+                                            <asp:GridView ID="gvMain" runat="server" OnRowCommand="gvMain_RowCommand" OnRowDataBound="gvMain_RowDataBound" AutoGenerateColumns="false" CssClass="table input-sm table-bordered table-condensed">
                                                 <Columns>
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
@@ -621,6 +621,8 @@
                                                     <asp:BoundField DataField="PFNO" HeaderText="PF Number" />
                                                     <asp:BoundField DataField="ISTDADATE" HeaderText="Ist DA Date" />
                                                     <asp:BoundField DataField="AMOUNT" HeaderText="Amount" />
+                                                    <asp:BoundField DataField="APPROVALSTATUSTEXT" HeaderText="Checker Status" />
+                                                    <asp:BoundField DataField="CHECKERREMARKS" HeaderText="Checker Remarks" />
                                                     <asp:TemplateField>
                                                         <HeaderTemplate>
                                                             Status
