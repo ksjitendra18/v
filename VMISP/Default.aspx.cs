@@ -93,25 +93,27 @@ namespace VMISP
             // so the inbox page for each module is mapped here; add a line as each module is rolled out.
             Dictionary<string, string> checkerInboxPages = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
-                { "IAC", "~/Mis/frmIACChecker.aspx" }
+                { "IAC", "~/Mis/frmIACChecker.aspx" },
+                { "VIGILANCE", "~/Mis/frmVigilanceChecker.aspx" },
+                { "MISC", "~/Mis/frmMiscChecker.aspx" }
             };
 
             List<CheckerModulePending> list = new List<CheckerModulePending>();
 
             using (SqlConnection con = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbVIGILANCEMIS"].ConnectionString))
             {
+                // Scoped by fnCheckerScope so the badges show only modules this checker is
+                // actually granted -- a Vigilance-only checker gets no Complaint or MISC count.
                 string query = @"
             SELECT WM.ModuleCode, WM.ModuleName, COUNT(*) AS PendingCount
             FROM CASE_APPROVAL CA
             INNER JOIN WORKFLOW_MODULE WM
                 ON WM.ModuleCode = CA.ModuleCode
                 AND WM.IsActive = 1
-            INNER JOIN MakerCheckerMapping UZM
-                ON UZM.ZoneSolID = CA.ZoneSolID
-                AND UZM.IsChecker = 1
-                AND UZM.IsActive = 1
-            WHERE UZM.UserPF = @UserPF
-                AND CA.ApprovalStatus = 'P'
+            INNER JOIN dbo.fnCheckerScope(@UserPF) S
+                ON S.ModuleCode = CA.ModuleCode
+                AND S.ZoneSolID = CA.ZoneSolID
+            WHERE CA.ApprovalStatus = 'P'
             GROUP BY WM.ModuleCode, WM.ModuleName";
 
                 SqlCommand cmd = new SqlCommand(query, con);
@@ -151,15 +153,15 @@ namespace VMISP
 
             using (SqlConnection con = new SqlConnection(WebConfigurationManager.ConnectionStrings["dbVIGILANCEMIS"].ConnectionString))
             {
+                // Complaint is still on its own inline-columns mechanism, but the checker's
+                // scope is resolved the same way as every other module.
                 string query = @"
             SELECT COUNT(*)
             FROM COMPLAINT C
-            INNER JOIN MakerCheckerMapping UZM
-                ON C.NEWZONE = UZM.ZoneSolID
-            WHERE UZM.UserPF = @UserPF
-                AND UZM.IsChecker = 1
-                AND UZM.IsActive = 1
-                AND C.APPROVALSTATUS = 'P'";
+            INNER JOIN dbo.fnCheckerScope(@UserPF) S
+                ON S.ModuleCode = 'COMPLAINT'
+               AND S.ZoneSolID  = C.NEWZONE
+            WHERE C.APPROVALSTATUS = 'P'";
 
                 SqlCommand cmd = new SqlCommand(query, con);
                 cmd.Parameters.AddWithValue("@UserPF", userPf);

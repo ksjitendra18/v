@@ -417,7 +417,7 @@
                                         <div class="form-group row">
                                             <div class="col-sm-12">
                                                 <asp:Panel ID="pnlList" runat="server" ScrollBars="Both" Width="100%">
-                                                    <asp:GridView ID="gvMain" runat="server" OnRowCommand="gvMain_RowCommand" AutoGenerateColumns="false" CssClass="table input-sm table-bordered table-condensed">
+                                                    <asp:GridView ID="gvMain" runat="server" OnRowCommand="gvMain_RowCommand" OnRowDataBound="gvMain_RowDataBound" AutoGenerateColumns="false" CssClass="table input-sm table-bordered table-condensed">
                                                         <Columns>
                                                             <asp:TemplateField HeaderStyle-CssClass="gridText" ItemStyle-CssClass="gridText">
                                                                 <HeaderTemplate>
@@ -439,6 +439,8 @@
                                                             <asp:BoundField DataField="ACCOUNTNAME" HeaderText="Account Name" />
                                                             <asp:BoundField DataField="CASECLOSE" HeaderText="Close" />
                                                             <asp:BoundField DataField="STATUSCODE" HeaderText="Status Code" />
+                                                            <asp:BoundField DataField="APPROVALSTATUSTEXT" HeaderText="Checker Status" />
+                                                            <asp:BoundField DataField="CHECKERREMARKS" HeaderText="Checker Remarks" />
                                                             <asp:TemplateField>
                                                                 <HeaderTemplate>
                                                                     Status

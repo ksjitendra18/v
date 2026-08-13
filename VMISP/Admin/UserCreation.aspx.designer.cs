@@ -121,6 +121,51 @@ namespace VMISP {
         protected global::System.Web.UI.WebControls.SqlDataSource sdsLocation;
         
         /// <summary>
+        /// trCheckerScope control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trCheckerScope;
+
+        /// <summary>
+        /// lblGroupsRequired control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblGroupsRequired;
+
+        /// <summary>
+        /// chkModuleGroups control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList chkModuleGroups;
+
+        /// <summary>
+        /// trCheckerZones control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableRow trCheckerZones;
+
+        /// <summary>
+        /// lblZonesRequired control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblZonesRequired;
+
+        /// <summary>
         /// chkZones control.
         /// </summary>
         /// <remarks>

@@ -80,10 +80,15 @@
           title="ABBFF Report"></siteMapNode>
       </siteMapNode>
       <siteMapNode url="" title="Misc" description="Misc Structure"
-        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">
-        <siteMapNode url="~/Mis/frmMiscStructure.aspx" description="Misc" title="Misc"></siteMapNode>
-        <siteMapNode url="~/Reports/MISCReport.aspx" description="Misc Enquiry" title="Misc Enquiry"></siteMapNode>
-        <siteMapNode url="~/Reports/frmMISCReports.aspx" description="MISC Report" title="Report"></siteMapNode>
+        roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER,VMIS_CHECKER">
+        <siteMapNode url="~/Mis/frmMiscStructure.aspx" description="Misc" title="Misc"
+          roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
+        <siteMapNode url="~/Mis/frmMiscChecker.aspx" description="MISC Checker Inbox"
+          title="MISC Checker Inbox" roles="VMIS_CHECKER"></siteMapNode>
+        <siteMapNode url="~/Reports/MISCReport.aspx" description="Misc Enquiry" title="Misc Enquiry"
+          roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
+        <siteMapNode url="~/Reports/frmMISCReports.aspx" description="MISC Report" title="Report"
+          roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER"></siteMapNode>
       </siteMapNode>
       <siteMapNode url="" title="NOC" description="NOC"
         roles="VMIS_MISUSER,VMIS_DESKUSER,VMIS_VIEWUSER">

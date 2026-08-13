@@ -15,7 +15,13 @@
 > See **`VMIS_Vigilance_MakerChecker_Implementation.md`**. It also closed the
 > `spVigilanceUser_Update` bypass listed in §3.1 and repaired `spVigilanceExcel_Import`, which
 > had been non-functional. Remaining on the old per-table mechanism: **Complaint**.
-> Remaining Tier A: MISC, RTI, NOC, RRB, Vigilance Monitoring.
+>
+> **Status update — 2026-08-13.** Checker authorisation is now **module-scoped** — a checker is
+> granted a *module group* in a zone (`VIG` = Vigilance + IAC, `CMP` = Complaint + MISC), resolved
+> everywhere through `dbo.fnCheckerScope`. **MISC** is the third module on the central registry.
+> Complaint is now module-scoped but still on its own inline-columns mechanism. See
+> **`VMIS_ModuleScoped_MakerChecker_Implementation.md`** and its design study
+> `VMIS_ModuleScoped_MakerChecker_Plan.md`. Remaining Tier A: RTI, NOC, RRB, Vigilance Monitoring.
 
 ---
 

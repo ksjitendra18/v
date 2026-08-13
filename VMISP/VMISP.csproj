@@ -299,6 +299,8 @@
     <Content Include="Mis\NOC.aspx" />
     <Content Include="Mis\frmIACChecker.aspx" />
     <Content Include="Mis\frmIACCheckerView.aspx" />
+    <Content Include="Mis\frmMiscChecker.aspx" />
+    <Content Include="Mis\frmMiscCheckerView.aspx" />
     <Content Include="Mis\frmVigilanceChecker.aspx" />
     <Content Include="Mis\frmVigilanceCheckerView.aspx" />
     <Content Include="Mis\frmIACStructure.aspx" />
@@ -958,6 +960,20 @@
     </Compile>
     <Compile Include="Mis\frmIACCheckerView.aspx.designer.cs">
       <DependentUpon>frmIACCheckerView.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Mis\frmMiscChecker.aspx.cs">
+      <DependentUpon>frmMiscChecker.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mis\frmMiscChecker.aspx.designer.cs">
+      <DependentUpon>frmMiscChecker.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Mis\frmMiscCheckerView.aspx.cs">
+      <DependentUpon>frmMiscCheckerView.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Mis\frmMiscCheckerView.aspx.designer.cs">
+      <DependentUpon>frmMiscCheckerView.aspx</DependentUpon>
     </Compile>
     <Compile Include="Mis\frmVigilanceChecker.aspx.cs">
       <DependentUpon>frmVigilanceChecker.aspx</DependentUpon>

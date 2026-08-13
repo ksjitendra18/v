@@ -29,12 +29,62 @@ namespace VMISP
         {
             if (DDLocation.SelectedValue == "VMIS_CHECKER")
             {
-                chkZones.Visible = true;
+                ShowCheckerScope(true);
+                BindModuleGroups();
                 BindZones();
+                LoadCheckerScope(TxtPF.Text);
             }
             else
             {
-                chkZones.Visible = false;
+                ShowCheckerScope(false);
+            }
+        }
+
+        /// <summary>
+        /// The checker scope is a module group x zone grant, so both lists appear and
+        /// disappear together -- one without the other grants nothing.
+        /// </summary>
+        private void ShowCheckerScope(bool visible)
+        {
+            trCheckerScope.Visible = visible;
+            trCheckerZones.Visible = visible;
+        }
+
+        /// <summary>
+        /// Binds the module groups a checker can be granted. The group, not the module, is
+        /// what is granted: 'Vigilance and IAC' is one tick, 'Complaint and MISC' another.
+        /// spCheckerGroup_Ddl returns the member modules so the admin can see what a tick
+        /// actually covers without knowing the module registry.
+        /// </summary>
+        private void BindModuleGroups()
+        {
+            DataTable dt = new DataTable();
+
+            using (SqlConnection con = new SqlConnection(
+                WebConfigurationManager.ConnectionStrings["dbVIGILANCEMIS"].ConnectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand("[dbo].[spCheckerGroup_Ddl]", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    SqlDataAdapter sda = new SqlDataAdapter(cmd);
+                    sda.Fill(dt);
+                }
+            }
+
+            chkModuleGroups.Items.Clear();
+
+            foreach (DataRow row in dt.Rows)
+            {
+                string groupCode = Convert.ToString(row["GroupCode"]);
+                string groupName = Convert.ToString(row["GroupName"]);
+                string modules = Convert.ToString(row["Modules"]);
+
+                string text = string.IsNullOrEmpty(modules)
+                    ? groupName
+                    : groupName + "  (" + modules + ")";
+
+                chkModuleGroups.Items.Add(new ListItem(text, groupCode));
             }
         }
 
@@ -163,7 +213,8 @@ namespace VMISP
                         {
                             AssignRole(TxtPF.Text, "VMIS_DESK_USER");
 
-                            SaveMakerCheckerMapping(TxtPF.Text);
+                            if (!SaveCheckerScope(TxtPF.Text))
+                                return;   // message already on LblResponse
                         }
                     }
 
@@ -279,7 +330,8 @@ namespace VMISP
                         {
                             AssignRole(TxtPF.Text, "VMIS_DESK_USER");
 
-                            SaveMakerCheckerMapping(TxtPF.Text);
+                            if (!SaveCheckerScope(TxtPF.Text))
+                                return;   // message already on LblResponse
                         }
                         else
                         {
@@ -369,94 +421,74 @@ namespace VMISP
 
 
 
-        private void SaveMakerCheckerMapping(string userPF)
+        /// <summary>
+        /// Saves the checker's scope as the ticked groups x ticked zones.
+        ///
+        /// Replaces the old per-zone "SELECT COUNT(*) then UPDATE-or-INSERT" loop, which was
+        /// a race -- two concurrent saves produced duplicate mappings, and a duplicate mapping
+        /// duplicated every row in that checker's inbox. spCheckerScope_Save does the whole
+        /// thing as one MERGE, and revokes anything no longer ticked.
+        /// </summary>
+        /// <returns>false if the selection is incomplete or the save failed; message in LblResponse.</returns>
+        private bool SaveCheckerScope(string userPF)
         {
             MembershipUser mu = Membership.GetUser(userPF);
 
             if (mu == null)
-                return;
+                return false;
 
             Guid userId = (Guid)mu.ProviderUserKey;
+
+            string groups = string.Join(",", chkModuleGroups.Items
+                                                .Cast<ListItem>()
+                                                .Where(i => i.Selected)
+                                                .Select(i => i.Value));
+
+            string zones = string.Join(",", chkZones.Items
+                                               .Cast<ListItem>()
+                                               .Where(i => i.Selected)
+                                               .Select(i => i.Value));
+
+            // A group with no zone, or a zone with no group, grants nothing at all. Saying so
+            // is better than saving a checker who will open an empty inbox and not know why.
+            if (string.IsNullOrEmpty(groups) || string.IsNullOrEmpty(zones))
+            {
+                LblResponse.Text = "Select at least one module group and at least one zone for this checker.";
+                LblResponse.CssClass = "errorString";
+                return false;
+            }
 
             using (SqlConnection con = new SqlConnection(
                 WebConfigurationManager.ConnectionStrings["dbVIGILANCEMIS"].ConnectionString))
             {
-                con.Open();
-
-                // Disable all old mappings
-                SqlCommand deactivate = new SqlCommand(@"
-            UPDATE MakerCheckerMapping
-            SET IsActive = 0
-            WHERE UserPF = @UserPF", con);
-
-                deactivate.Parameters.AddWithValue("@UserPF", userPF);
-                deactivate.ExecuteNonQuery();
-
-                foreach (ListItem item in chkZones.Items)
+                using (SqlCommand cmd = new SqlCommand("[dbo].[spCheckerScope_Save]", con))
                 {
-                    if (!item.Selected)
-                        continue;
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                    SqlCommand check = new SqlCommand(@"
-                SELECT COUNT(*)
-                FROM MakerCheckerMapping
-                WHERE UserPF=@UserPF
-                  AND ZoneSolID=@Zone", con);
+                    SqlParameter sqlErrMsgOutput = new SqlParameter("@o_EERMSG", SqlDbType.VarChar, 1000) { Direction = ParameterDirection.Output };
+                    SqlParameter sqlErrCodeOutput = new SqlParameter("@o_ERRCODE", SqlDbType.Int) { Direction = ParameterDirection.Output };
+                    cmd.Parameters.Add(sqlErrMsgOutput);
+                    cmd.Parameters.Add(sqlErrCodeOutput);
 
-                    check.Parameters.AddWithValue("@UserPF", userPF);
-                    check.Parameters.AddWithValue("@Zone", item.Value);
+                    cmd.Parameters.AddWithValue("@p_USERPF", userPF);
+                    cmd.Parameters.AddWithValue("@p_USERID", userId);
+                    cmd.Parameters.AddWithValue("@p_GROUPS", groups);
+                    cmd.Parameters.AddWithValue("@p_ZONES", zones);
+                    cmd.Parameters.AddWithValue("@p_CREATEDBY", User.Identity.Name);
 
-                    int exists = (int)check.ExecuteScalar();
+                    con.Open();
+                    cmd.ExecuteNonQuery();
 
-                    if (exists > 0)
+                    if (Convert.ToInt32(sqlErrCodeOutput.Value) != 1)
                     {
-                        SqlCommand update = new SqlCommand(@"
-                    UPDATE MakerCheckerMapping
-                    SET
-                        IsActive=1,
-                        IsChecker=1,
-                        IsMaker=0
-                    WHERE UserPF=@UserPF
-                      AND ZoneSolID=@Zone", con);
-
-                        update.Parameters.AddWithValue("@UserPF", userPF);
-                        update.Parameters.AddWithValue("@Zone", item.Value);
-
-                        update.ExecuteNonQuery();
-                    }
-                    else
-                    {
-                        SqlCommand insert = new SqlCommand(@"
-                    INSERT INTO MakerCheckerMapping
-                    (
-                        UserId,
-                        UserPF,
-                        ZoneSolID,
-                        IsMaker,
-                        IsChecker,
-                        IsActive,
-                        CreatedBy
-                    )
-                    VALUES
-                    (
-                        @UserId,
-                        @UserPF,
-                        @Zone,
-                        0,
-                        1,
-                        1,
-                        @CreatedBy
-                    )", con);
-
-                        insert.Parameters.AddWithValue("@UserId", userId);
-                        insert.Parameters.AddWithValue("@UserPF", userPF);
-                        insert.Parameters.AddWithValue("@Zone", item.Value);
-                        insert.Parameters.AddWithValue("@CreatedBy", User.Identity.Name);
-
-                        insert.ExecuteNonQuery();
+                        LblResponse.Text = Convert.ToString(sqlErrMsgOutput.Value);
+                        LblResponse.CssClass = "errorString";
+                        return false;
                     }
                 }
             }
+
+            return true;
         }
 
 
@@ -564,13 +596,14 @@ namespace VMISP
 
                     if (isChecker)
                     {
-                        chkZones.Visible = true;
+                        ShowCheckerScope(true);
+                        BindModuleGroups();
                         BindZones();
-                        LoadCheckerZones(TxtPF.Text);
+                        LoadCheckerScope(TxtPF.Text);
                     }
                     else
                     {
-                        chkZones.Visible = false;
+                        ShowCheckerScope(false);
                     }
                 }
                 //string[] roles = Roles.GetRolesForUser(TxtPF.Text);
@@ -631,34 +664,44 @@ namespace VMISP
             btnResetPassword.Enabled = true;
         }
 
-        private void LoadCheckerZones(string userPF)
+        /// <summary>
+        /// Ticks the groups and zones this checker currently holds, so the screen opens
+        /// showing what is actually granted rather than an empty form.
+        /// </summary>
+        private void LoadCheckerScope(string userPF)
         {
+            HashSet<string> groups = new HashSet<string>();
+            HashSet<string> zones = new HashSet<string>();
+
             using (SqlConnection con = new SqlConnection(
                 WebConfigurationManager.ConnectionStrings["dbVIGILANCEMIS"].ConnectionString))
             {
-                SqlCommand cmd = new SqlCommand(@"
-            SELECT ZoneSolID
-            FROM MakerCheckerMapping
-            WHERE UserPF = @UserPF
-              AND IsActive = 1", con);
-
-                cmd.Parameters.AddWithValue("@UserPF", userPF);
-
-                con.Open();
-
-                SqlDataReader dr = cmd.ExecuteReader();
-
-                HashSet<string> zones = new HashSet<string>();
-
-                while (dr.Read())
+                using (SqlCommand cmd = new SqlCommand("[dbo].[spCheckerScope_Get]", con))
                 {
-                    zones.Add(dr["ZoneSolID"].ToString());
-                }
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@p_USERPF", userPF);
 
-                foreach (ListItem item in chkZones.Items)
-                {
-                    item.Selected = zones.Contains(item.Value);
+                    con.Open();
+
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            groups.Add(Convert.ToString(dr["GroupCode"]));
+                            zones.Add(Convert.ToString(dr["ZoneSolID"]));
+                        }
+                    }
                 }
+            }
+
+            foreach (ListItem item in chkModuleGroups.Items)
+            {
+                item.Selected = groups.Contains(item.Value);
+            }
+
+            foreach (ListItem item in chkZones.Items)
+            {
+                item.Selected = zones.Contains(item.Value);
             }
         }
 

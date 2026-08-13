@@ -143,11 +143,44 @@
     <td></td>
 </tr>--%>
 
-        <asp:CheckBoxList
-    ID="chkZones"
-    runat="server"
-    RepeatDirection="Vertical">
-</asp:CheckBoxList>
+        <%--
+            Checker scope. Only visible when Location/Role is CHECKER.
+            A grant is a MODULE GROUP in a ZONE: ticking "Vigilance & IAC" and two zones
+            grants that user those two modules in those two zones and nothing else.
+            Saved as the group x zone cross product by spCheckerScope_Save.
+        --%>
+        <tr id="trCheckerScope" runat="server" visible="false">
+            <td class="tdTextReight" style="vertical-align: top;">
+                <asp:Label ID="lblGroupsRequired" runat="server" Text="*" Font-Bold="True" ForeColor="Red"></asp:Label>
+                <span class="lblCaption">Modules to Check :</span>
+            </td>
+            <td>
+                <asp:CheckBoxList ID="chkModuleGroups"
+                    runat="server"
+                    RepeatDirection="Vertical"
+                    CssClass="lblCaption">
+                </asp:CheckBoxList>
+                <div style="font-size: 11px; color: #666;">
+                    The checker sees only the modules ticked here, and only for the zones ticked below.
+                </div>
+            </td>
+            <td></td>
+        </tr>
+
+        <tr id="trCheckerZones" runat="server" visible="false">
+            <td class="tdTextReight" style="vertical-align: top;">
+                <asp:Label ID="lblZonesRequired" runat="server" Text="*" Font-Bold="True" ForeColor="Red"></asp:Label>
+                <span class="lblCaption">Zones :</span>
+            </td>
+            <td>
+                <asp:CheckBoxList ID="chkZones"
+                    runat="server"
+                    RepeatDirection="Vertical"
+                    CssClass="lblCaption">
+                </asp:CheckBoxList>
+            </td>
+            <td></td>
+        </tr>
 
 
 

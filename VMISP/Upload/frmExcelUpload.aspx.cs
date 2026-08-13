@@ -2480,13 +2480,25 @@ namespace VMISP.Upload
                     cmd.Parameters.AddWithValue("@p_ADDUSER", Session["userid"].ToString());
                     cmd.Parameters.AddWithValue("@p_ADDUSERIP", objCommonFunction.funcGetUserIP());
 
+                    // Maker-checker: the SOL-coded zone is what routes a record to a checker.
+                    // The MISC sheet has no such column today, so these are passed only when one
+                    // is present. Until then MISC imports rely on
+                    // WORKFLOW_MODULE.ImportApprovalStatus = 'A', an audited exemption -- add the
+                    // columns to the sheet before switching that setting to 'P'.
+                    if (dt.Columns.Contains("NEWZONESOLID"))
+                        cmd.Parameters.AddWithValue("@p_NEWZONESOLID", Convert.ToString(row["NEWZONESOLID"]));
+
+                    if (dt.Columns.Contains("NEWCIRCLESOLID"))
+                        cmd.Parameters.AddWithValue("@p_NEWCIRCLESOLID", Convert.ToString(row["NEWCIRCLESOLID"]));
+
                     cmd.ExecuteNonQuery();
                     cmd.CommandTimeout = 0;
 
                     strErrMsg = sqlErrMsgOutput.Value.ToString();
                     intErrCode = Convert.ToInt32(sqlErrCodeOutput.Value);
 
-                    if (intErrCode == -1)
+                    // -1 duplicate R number, -2 no zone on a row that needs checker verification.
+                    if (intErrCode == -1 || intErrCode == -2)
                     {
                         strScript.Append("<script language=JavaScript>");
                         strScript.Append("document.body.onload=function(){alert('" + strErrMsg + "')}</script>");

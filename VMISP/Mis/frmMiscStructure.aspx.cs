@@ -245,14 +245,22 @@ namespace VMISP.Mis
 
                 cmdSave.CommandTimeout = 0;
 
-                if (cmdSave.ExecuteNonQuery() > 0)
+                cmdSave.ExecuteNonQuery();
+
+                // The maker-checker guards in spMiscStructure_Update refuse a save WITHOUT
+                // running any DML (missing zone, record pending, record rejected), so the old
+                // "if (ExecuteNonQuery() > 0)" test read as failure and their message never
+                // reached the user. Read the proc's own outcome instead, and only clear the
+                // form when something was actually written.
+                int intErrCode = Convert.ToInt32(sqlErrCodeOutput.Value);
+
+                lblMsg.Text = Convert.ToString(sqlErrMsgOutput.Value);
+
+                if (intErrCode == 1 || intErrCode == 2)
                 {
+                    string savedMessage = lblMsg.Text;
                     funcClear();
-                    lblMsg.Text = Convert.ToString(sqlErrMsgOutput.Value);
-                }
-                else
-                {
-                    lblMsg.Text = Convert.ToString(sqlErrMsgOutput.Value);
+                    lblMsg.Text = savedMessage;   // funcClear() blanks lblMsg
                 }
             }
             catch (Exception es)
@@ -425,6 +433,93 @@ namespace VMISP.Mis
             objCommonFunction.ddlSetDataValue(ddlZoneType, Convert.ToString(dtData.Rows[0]["ZONE_TYPE"]));
             txtZOCM.Text = Convert.ToString(dtData.Rows[0]["ZONE_CM"]);
             lblMsg.Text = "";
+
+            funcApplyCheckerLock(dtData);
+        }
+
+        /// <summary>
+        /// Fetching a record by R number bypasses the grid, so re-apply the same lock here:
+        /// a record awaiting verification or rejected by the checker is not editable.
+        /// spMiscStructure_Update refuses these too -- this only spares the user a pointless save.
+        /// </summary>
+        private void funcApplyCheckerLock(DataTable dtData)
+        {
+            if (!dtData.Columns.Contains("APPROVALSTATUS"))
+                return;
+
+            string approvalStatus = Convert.ToString(dtData.Rows[0]["APPROVALSTATUS"]);
+            string checkerRemarks = dtData.Columns.Contains("CHECKERREMARKS")
+                ? Convert.ToString(dtData.Rows[0]["CHECKERREMARKS"])
+                : string.Empty;
+
+            if (approvalStatus == "P")
+            {
+                btnUpdate.Visible = false;
+                lblMsg.Text = "This record is pending verification by the checker and cannot be edited.";
+            }
+            else if (approvalStatus == "X")
+            {
+                btnUpdate.Visible = false;
+                lblMsg.Text = "This record has been rejected by the checker and cannot be edited."
+                            + (string.IsNullOrEmpty(checkerRemarks) ? "" : " Remarks: " + checkerRemarks);
+            }
+            else if (approvalStatus == "C" && !string.IsNullOrEmpty(checkerRemarks))
+            {
+                lblMsg.Text = "The checker has asked for changes. Remarks: " + checkerRemarks;
+            }
+        }
+
+        /// <summary>
+        /// Row-level edit lock. The button LABEL is the lock signal, because
+        /// funcControlsUserRights() re-enables grid buttons for VMIS_DESKUSER after binding
+        /// and must not undo this.
+        /// </summary>
+        protected void gvMain_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType != DataControlRowType.DataRow)
+                return;
+
+            DataRowView drv = e.Row.DataItem as DataRowView;
+
+            if (drv == null || !drv.Row.Table.Columns.Contains("APPROVALSTATUS"))
+                return;
+
+            Button btn = e.Row.FindControl("btnView") as Button;
+
+            if (btn == null)
+                return;
+
+            switch (Convert.ToString(drv["APPROVALSTATUS"]))
+            {
+                case "P":
+                    // Awaiting the checker. Not the maker's to change until they act.
+                    btn.Enabled = false;
+                    btn.Text = "Pending";
+                    btn.CssClass = "btn btn-sm btn-warning";
+                    btn.ToolTip = "Pending verification by the checker - not editable.";
+                    break;
+
+                case "X":
+                    // Rejected by the checker - locked.
+                    btn.Enabled = false;
+                    btn.Text = "Rejected";
+                    btn.CssClass = "btn btn-sm btn-danger";
+                    btn.ToolTip = "Rejected by the checker - not editable.";
+                    break;
+
+                case "C":
+                    // Pushed back for correction - the maker is expected to edit it.
+                    btn.Enabled = true;
+                    btn.CssClass = "btn btn-sm btn-info";
+                    btn.ToolTip = "Changes requested by the checker.";
+                    break;
+
+                default:
+                    // 'A' approved, or a record that predates the workflow (NULL).
+                    // Editing an approved record re-queues it for verification.
+                    btn.Enabled = true;
+                    break;
+            }
         }
 
         public void funcClear()
@@ -534,7 +629,13 @@ namespace VMISP.Mis
                 foreach (GridViewRow row in gvMain.Rows)
                 {
                     Button btnView = ((Button)row.FindControl("btnView")) as Button;
-                    btnView.Enabled = true;
+
+                    // Only re-enable rows the checker lock left open. gvMain_RowDataBound
+                    // relabels locked rows "Pending" / "Rejected", so the label is what
+                    // distinguishes a row disabled by user rights from one disabled by the
+                    // workflow. Without this test every row would be re-enabled here.
+                    if (btnView != null && btnView.Text == "Edit")
+                        btnView.Enabled = true;
                 }
 
                 btnGet.Enabled = true;

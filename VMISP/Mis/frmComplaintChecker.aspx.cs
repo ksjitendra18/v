@@ -23,6 +23,11 @@ namespace VMISP.Mis
             using (SqlConnection con = new SqlConnection(
                 WebConfigurationManager.ConnectionStrings["dbVIGILANCEMIS"].ConnectionString))
             {
+                // Scoped by fnCheckerScope, which resolves a checker's grants to (module, zone)
+                // pairs. Joining it on ModuleCode = 'COMPLAINT' means a checker granted only
+                // Vigilance & IAC sees nothing here, even in a zone they check for those modules.
+                // Complaint still keeps its approval state in its own columns rather than in
+                // CASE_APPROVAL, which is why this is a query and not spCase_CheckerQueue.
                 string query = @"
      SELECT
             C.RNO,
@@ -31,12 +36,10 @@ namespace VMISP.Mis
             C.RECDATECOMP,
             C.APPROVALSTATUS
         FROM COMPLAINT C
-        INNER JOIN MakerCheckerMapping UZM
-            ON C.NEWZONE = UZM.ZoneSolID
-        WHERE UZM.UserPF = @UserPF
-            AND UZM.IsChecker = 1
-            AND UZM.IsActive = 1
-            AND C.APPROVALSTATUS = 'P'
+        INNER JOIN dbo.fnCheckerScope(@UserPF) S
+            ON S.ModuleCode = 'COMPLAINT'
+           AND S.ZoneSolID  = C.NEWZONE
+        WHERE C.APPROVALSTATUS = 'P'
         ORDER BY C.RECDATECOMP DESC;
 ";
 
